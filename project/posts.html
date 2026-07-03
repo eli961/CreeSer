@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cree Ser — Posts (estados)</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Mulish:wght@400;600;700&family=Frank+Ruhl+Libre:wght@500;700&display=swap');
+
+:root{
+  --ink:#143A41; --ink-soft:#41666C;
+  --teal:#2A9CA8; --teal-deep:#1B6E78; --teal-bright:#3CB6BE; --teal-ink:#0E3A40; --teal-ink2:#082226;
+  --gold:#C5933E; --gold-soft:#E6C982; --gold-deep:#A9772A;
+  --rose:#DD7E97; --cream:#FBF7EF;
+  --serif:'Cormorant Garamond',Georgia,serif; --sans:'Mulish',sans-serif; --hebrew:'Frank Ruhl Libre',serif;
+}
+*{ box-sizing:border-box; margin:0; padding:0; }
+body{ background:#e9e4d8; font-family:var(--sans); color:var(--ink); }
+
+/* ---------- The post (1080 x 1920) ---------- */
+.post{
+  width:1080px; height:1920px; position:relative; overflow:hidden;
+  display:flex; flex-direction:column; align-items:center; text-align:center;
+  padding:140px 120px 120px;
+}
+.post__center{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:34px; }
+.post__rays{ color:var(--gold); opacity:.85; }
+.post__heb{ font-family:var(--hebrew); direction:rtl; font-weight:500; font-size:62px; letter-spacing:.01em; line-height:1; }
+.post__heb--xl{ font-size:96px; line-height:1.16; max-width:840px; font-weight:700; }
+.post__heb--sm{ font-size:46px; line-height:1.35; max-width:780px; }
+.post__msg{ font-family:var(--serif); font-weight:600; font-size:122px; line-height:1.04; letter-spacing:-.015em; }
+.post__msg em{ font-style:italic; }
+.post__msg.long{ font-size:104px; }
+.post__sub{ font-family:var(--sans); font-weight:600; font-size:40px; line-height:1.45; max-width:18ch; }
+.post__rule{ width:80px; height:3px; border-radius:3px; background:currentColor; opacity:.55; }
+.post__logo{ margin-top:8px; }
+.post__logo img{ width:300px; height:auto; display:block; }
+.post__logo.chip{ background:#fff; padding:30px 46px; border-radius:999px; box-shadow:0 24px 60px -20px rgba(0,0,0,.35); }
+
+/* ---------- Light theme ---------- */
+.post.light{ background:var(--cream); color:var(--ink); }
+.post.light .post__heb{ color:var(--gold-deep); }
+.post.light .post__msg{ color:var(--ink); }
+.post.light .post__msg em{ color:var(--teal-deep); }
+.post.light .post__sub{ color:var(--ink-soft); }
+.post.light .post__rays{ color:var(--gold); }
+.post.light .post__rule{ color:var(--teal); }
+.post.light::before{ content:""; position:absolute; left:50%; top:-12%; transform:translateX(-50%);
+  width:1200px; height:1200px; border-radius:50%; z-index:0; filter:blur(10px); }
+.post.glow-gold::before{ background:radial-gradient(circle,rgba(230,201,130,.42),rgba(230,201,130,.10) 38%,transparent 62%); }
+.post.glow-teal::before{ background:radial-gradient(circle,rgba(60,182,190,.30),rgba(60,182,190,.08) 40%,transparent 64%); }
+.post.glow-blush::before{ background:radial-gradient(circle,rgba(221,126,151,.28),rgba(221,126,151,.07) 40%,transparent 64%); }
+.post.light::after{ content:""; position:absolute; inset:0; z-index:0;
+  background:radial-gradient(130% 80% at 50% 0%, transparent 46%, rgba(244,236,221,.7) 100%); }
+.post.light > *{ position:relative; z-index:1; }
+
+/* ---------- Deep theme ---------- */
+.post.deep{ color:#eaf6f7;
+  background:
+    radial-gradient(120% 110% at 84% -8%, rgba(60,182,190,.26), transparent 46%),
+    radial-gradient(95% 95% at 6% 112%, rgba(197,147,62,.22), transparent 52%),
+    linear-gradient(160deg,var(--teal-ink),var(--teal-ink2)); }
+.post.deep .post__heb{ color:var(--gold-soft); }
+.post.deep .post__msg{ color:#fff; }
+.post.deep .post__msg em{ color:var(--gold-soft); }
+.post.deep .post__sub{ color:rgba(234,246,247,.82); }
+.post.deep .post__rays{ color:var(--gold-soft); opacity:.7; }
+.post.deep .post__rule{ color:var(--gold-soft); }
+
+/* ---------- Gallery (viewing) ---------- */
+.page{ padding:48px 32px 80px; }
+.page__head{ max-width:1100px; margin:0 auto 36px; text-align:center; }
+.page__head h1{ font-family:var(--serif); font-weight:600; font-size:40px; color:var(--ink); }
+.page__head p{ color:var(--ink-soft); font-size:15px; margin-top:8px; }
+.groups{ max-width:1180px; margin:0 auto; }
+.group{ font-family:var(--serif); font-weight:600; font-size:30px; text-align:center; color:var(--ink); margin:40px 0 20px; }
+.group span{ display:block; font-family:var(--sans); font-size:13px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--teal); margin-bottom:4px; }
+.row{ display:flex; flex-wrap:wrap; gap:30px; justify-content:center; }
+.card{ display:flex; flex-direction:column; align-items:center; gap:12px; }
+.thumb{ width:270px; height:480px; border-radius:22px; overflow:hidden; box-shadow:0 20px 50px -18px rgba(14,58,64,.4); position:relative; background:#fff; }
+.thumb .post{ transform:scale(.25); transform-origin:top left; position:absolute; top:0; left:0; }
+.card .name{ font-size:13px; font-weight:700; color:var(--ink-soft); letter-spacing:.04em; }
+
+/* ---------- Download button + cards ---------- */
+.card .dl{ display:inline-flex; align-items:center; gap:8px; font-family:var(--sans); font-weight:700; font-size:13px;
+  padding:10px 18px; border-radius:999px; border:1px solid var(--teal); background:#fff; color:var(--teal-deep);
+  cursor:pointer; transition:.15s; letter-spacing:.01em; }
+.card .dl:hover{ background:var(--teal-deep); color:#fff; border-color:var(--teal-deep); transform:translateY(-1px); }
+.card .dl:disabled{ opacity:.6; cursor:default; transform:none; }
+.dlall{ display:inline-flex; align-items:center; gap:8px; margin-top:16px; font-family:var(--sans); font-weight:700; font-size:14px;
+  padding:12px 26px; border-radius:999px; border:0; background:linear-gradient(135deg,var(--teal-bright),var(--teal-deep)); color:#fff; cursor:pointer; box-shadow:0 14px 30px -14px rgba(14,58,64,.5); transition:.15s; }
+.dlall:hover{ transform:translateY(-2px); }
+.dlall:disabled{ opacity:.7; cursor:default; }
+</style>
+</head>
+<body>
+
+<!-- ============ GALLERY ============ -->
+<div class="page">
+  <div class="page__head">
+    <h1>Cree Ser · Estados de WhatsApp</h1>
+    <p>20 posts verticales (1080 × 1920) · toca <b>Descargar JPG</b> en cualquiera para guardarlo</p>
+    <button class="dlall" id="dlall">&#x2193; Descargar todos (JPG)</button>
+  </div>
+  <div class="grid groups" id="grid"></div>
+</div>
+
+<!-- ============ POSTS TEMPLATE SOURCE ============ -->
+<div id="src" hidden>
+
+  <article class="post light glow-gold" data-name="01 · Viene algo grande">
+    <div class="post__rays"><svg width="360" height="120" viewBox="0 0 360 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M180 120V14"/><path d="M180 120 130 28"/><path d="M180 120 230 28"/><path d="M180 120 84 50"/><path d="M180 120 276 50"/><path d="M180 120 44 78"/><path d="M180 120 316 78"/></svg></div>
+    <div class="post__center">
+      <div class="post__heb">בְּקָרוֹב</div>
+      <h2 class="post__msg">Viene algo<br><em>grande</em></h2>
+    </div>
+    <div class="post__logo"><img src="assets/creeser-logo.png" alt="Cree Ser"></div>
+  </article>
+
+  <article class="post light glow-blush" data-name="02 · Porque tú lo pediste">
+    <div class="post__rays"><svg width="360" height="120" viewBox="0 0 360 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M180 120V14"/><path d="M180 120 130 28"/><path d="M180 120 230 28"/><path d="M180 120 84 50"/><path d="M180 120 276 50"/></svg></div>
+    <div class="post__center">
+      <div class="post__heb">כִּי בִּקַּשְׁתְּ</div>
+      <h2 class="post__msg">Porque <em>tú</em><br>lo pediste</h2>
+    </div>
+    <div class="post__logo"><img src="assets/creeser-logo.png" alt="Cree Ser"></div>
+  </article>
+
+  <article class="post deep" data-name="03 · Supera lo que imaginas">
+    <div class="post__rays"><svg width="360" height="120" viewBox="0 0 360 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M180 120V14"/><path d="M180 120 130 28"/><path d="M180 120 230 28"/><path d="M180 120 84 50"/><path d="M180 120 276 50"/><path d="M180 120 44 78"/><path d="M180 120 316 78"/></svg></div>
+    <div class="post__center">
+      <div class="post__heb">לְמַעְלָה מִכָּל דִּמְיוֹן</div>
+      <h2 class="post__msg long">Lo que viene<br>supera todo<br>lo que <em>imaginas</em></h2>
+    </div>
+    <div class="post__logo chip"><img src="assets/creeser-logo.png" alt="Cree Ser"></div>
+  </article>
+
+  <article class="post light glow-gold" data-name="04 · Algo especial para ti">
+    <div class="post__rays"><svg width="320" height="110" viewBox="0 0 360 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M180 120V18"/><path d="M180 120 134 34"/><path d="M180 120 226 34"/><path d="M180 120 92 56"/><path d="M180 120 268 56"/></svg></div>
+    <div class="post__center">
+      <div class="post__heb">בִּשְׁבִילֵךְ</div>
+      <h2 class="post__msg">Algo <em>especial</em><br>fue creado<br>pensando en ti</h2>
+      <div class="post__rule"></div>
+      <p class="post__sub">Muy pronto lo descubrirás.</p>
+    </div>
+    <div class="post__logo"><img src="assets/creeser-logo.png" alt="Cree Ser"></div>
+  </article>
+
+  <article class="post deep" data-name="05 · Por y para ti">
+    <div class="post__rays"><svg width="360" height="120" viewBox="0 0 360 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M180 120V14"/><path d="M180 120 130 28"/><path d="M180 120 230 28"/><path d="M180 120 84 50"/><path d="M180 120 276 50"/></svg></div>
+    <div class="post__center">
+      <div class="post__heb">לְמַעֲנֵךְ</div>
+      <h2 class="post__msg">Esto es por<br>y <em>para ti</em></h2>
+    </div>
+    <div class="post__logo chip"><img src="assets/creeser-logo.png" alt="Cree Ser"></div>
+  </article>
+
+  <article class="post light glow-teal" data-name="06 · Algo increíble">
+    <div class="post__rays"><svg width="320" height="110" viewBox="0 0 360 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M180 120V18"/><path d="M180 120 134 34"/><path d="M180 120 226 34"/><path d="M180 120 92 56"/><path d="M180 120 268 56"/></svg></div>
+    <div class="post__center">
+      <div class="post__heb">עוֹד מְעַט</div>
+      <h2 class="post__msg">Algo <em>increíble</em><br>está por suceder</h2>
+      <div class="post__rule"></div>
+      <p class="post__sub">Mantente cerca, lo mejor está llegando.</p>
+    </div>
+    <div class="post__logo"><img src="assets/creeser-logo.png" alt="Cree Ser"></div>
+  </article>
+
+  <article class="post deep" data-name="07 · Marcará la diferencia">
+    <div class="post__rays"><svg width="360" height="120" viewBox="0 0 360 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M180 120V14"/><path d="M180 120 130 28"/><path d="M180 120 230 28"/><path d="M180 120 84 50"/><path d="M180 120 276 50"/><path d="M180 120 44 78"/><path d="M180 120 316 78"/></svg></div>
+    <div class="post__center">
+      <div class="post__heb">שִׁנּוּי אֲמִתִּי</div>
+      <h2 class="post__msg long">Se viene algo<br>que marcará<br><em>la diferencia</em></h2>
+      <div class="post__rule"></div>
+      <p class="post__sub">¿Estás lista?</p>
+    </div>
+    <div class="post__logo chip"><img src="assets/creeser-logo.png" alt="Cree Ser"></div>
+  </article>
+
+  <article class="post light glow-blush" data-name="08 · Está llegando">
+    <div class="post__rays"><svg width="320" height="110" viewBox="0 0 360 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M180 120V18"/><path d="M180 120 134 34"/><path d="M180 120 226 34"/><path d="M180 120 92 56"/><path d="M180 120 268 56"/></svg></div>
+    <div class="post__center">
+      <div class="post__heb">מַה שֶּׁחִכִּית</div>
+      <h2 class="post__msg">Lo que estás<br>esperando<br><em>está llegando</em></h2>
+      <div class="post__rule"></div>
+      <p class="post__sub">Falta muy poco. Quédate atenta.</p>
+    </div>
+    <div class="post__logo"><img src="assets/creeser-logo.png" alt="Cree Ser"></div>
+  </article>
+
+  <article class="post light glow-gold" data-name="09 · Se acerca">
+    <div class="post__rays"><svg width="360" height="120" viewBox="0 0 360 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M180 120V14"/><path d="M180 120 130 28"/><path d="M180 120 230 28"/><path d="M180 120 84 50"/><path d="M180 120 276 50"/></svg></div>
+    <div class="post__center">
+      <div class="post__heb">מִתְקָרֵב</div>
+      <h2 class="post__msg">Se acerca<br>lo que has estado<br><em>esperando</em></h2>
+    </div>
+    <div class="post__logo"><img src="assets/creeser-logo.png" alt="Cree Ser"></div>
+  </article>
+
+  <article class="post deep" data-name="10 · Sé diferente, Sé Cree Ser">
+    <div class="post__rays"><svg width="360" height="120" viewBox="0 0 360 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M180 120V14"/><path d="M180 120 130 28"/><path d="M180 120 230 28"/><path d="M180 120 84 50"/><path d="M180 120 276 50"/><path d="M180 120 44 78"/><path d="M180 120 316 78"/></svg></div>
+    <div class="post__center">
+      <div class="post__heb">תַּחְשְׁבִי אַחֶרֶת</div>
+      <h2 class="post__msg long">Lo que viene<br>superará todo<br>lo que <em>imaginas</em></h2>
+      <div class="post__rule"></div>
+      <p class="post__sub">Sé diferente. Sé Cree Ser.</p>
+    </div>
+    <div class="post__logo chip"><img src="assets/creeser-logo.png" alt="Cree Ser"></div>
+  </article>
+
+  <!-- ===== TEMAS DEL CICLO ===== -->
+
+  <article class="post deep" data-name="T1 · Valor propio">
+    <div class="post__rays"><svg width="360" height="120" viewBox="0 0 360 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M180 120V14"/><path d="M180 120 130 28"/><path d="M180 120 230 28"/><path d="M180 120 84 50"/><path d="M180 120 276 50"/></svg></div>
+    <div class="post__center">
+      <div class="post__heb post__heb--xl">אֲשֶׁר בָּחַר בָּנוּ</div>
+      <div class="post__rule"></div>
+      <p class="post__sub">Hay algo en ti que fue elegido.</p>
+    </div>
+    <div class="post__logo chip"><img src="assets/creeser-logo.png" alt="Cree Ser"></div>
+  </article>
+
+  <article class="post light glow-gold" data-name="T1 · ¿Cuánto vales?">
+    <div class="post__rays"><svg width="320" height="110" viewBox="0 0 360 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M180 120V18"/><path d="M180 120 134 34"/><path d="M180 120 226 34"/><path d="M180 120 92 56"/><path d="M180 120 268 56"/></svg></div>
+    <div class="post__center">
+      <div class="post__heb">יָקָר</div>
+      <h2 class="post__msg">¿Sabes cuánto<br><em>vales</em>?</h2>
+      <div class="post__rule"></div>
+      <p class="post__sub">La respuesta lo cambia todo.</p>
+    </div>
+    <div class="post__logo"><img src="assets/creeser-logo.png" alt="Cree Ser"></div>
+  </article>
+
+  <article class="post light glow-blush" data-name="T2 · Eshet Jayil">
+    <div class="post__rays"><svg width="360" height="120" viewBox="0 0 360 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M180 120V14"/><path d="M180 120 130 28"/><path d="M180 120 230 28"/><path d="M180 120 84 50"/><path d="M180 120 276 50"/></svg></div>
+    <div class="post__center">
+      <div class="post__heb post__heb--xl">אֵשֶׁת חַיִל</div>
+      <div class="post__rule"></div>
+      <p class="post__sub">¿Quién es ella, realmente?</p>
+    </div>
+    <div class="post__logo"><img src="assets/creeser-logo.png" alt="Cree Ser"></div>
+  </article>
+
+  <article class="post deep" data-name="T2 · La fuerza de una mujer">
+    <div class="post__rays"><svg width="360" height="120" viewBox="0 0 360 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M180 120V14"/><path d="M180 120 130 28"/><path d="M180 120 230 28"/><path d="M180 120 84 50"/><path d="M180 120 276 50"/></svg></div>
+    <div class="post__center">
+      <h2 class="post__msg">La <em>fuerza</em><br>de una mujer</h2>
+      <div class="post__heb post__heb--sm">עֹז וְהָדָר לְבוּשָׁהּ</div>
+    </div>
+    <div class="post__logo chip"><img src="assets/creeser-logo.png" alt="Cree Ser"></div>
+  </article>
+
+  <article class="post deep" data-name="T3 · Midat HaJasidut">
+    <div class="post__rays"><svg width="360" height="120" viewBox="0 0 360 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M180 120V14"/><path d="M180 120 130 28"/><path d="M180 120 230 28"/><path d="M180 120 84 50"/><path d="M180 120 276 50"/></svg></div>
+    <div class="post__center">
+      <div class="post__heb post__heb--xl">מִדַּת הַחֲסִידוּת</div>
+      <div class="post__rule"></div>
+      <p class="post__sub">Cuando hacer lo correcto no es suficiente.</p>
+    </div>
+    <div class="post__logo chip"><img src="assets/creeser-logo.png" alt="Cree Ser"></div>
+  </article>
+
+  <article class="post light glow-teal" data-name="T3 · ¿Hasta dónde llega tu jésed?">
+    <div class="post__rays"><svg width="320" height="110" viewBox="0 0 360 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M180 120V18"/><path d="M180 120 134 34"/><path d="M180 120 226 34"/><path d="M180 120 92 56"/><path d="M180 120 268 56"/></svg></div>
+    <div class="post__center">
+      <div class="post__heb">חֶסֶד</div>
+      <h2 class="post__msg">¿Hasta dónde<br>llega tu <em>corazón</em>?</h2>
+    </div>
+    <div class="post__logo"><img src="assets/creeser-logo.png" alt="Cree Ser"></div>
+  </article>
+
+  <article class="post light glow-gold" data-name="T4 · Maagal HaShana">
+    <div class="post__rays"><svg width="360" height="120" viewBox="0 0 360 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M180 120V14"/><path d="M180 120 130 28"/><path d="M180 120 230 28"/><path d="M180 120 84 50"/><path d="M180 120 276 50"/></svg></div>
+    <div class="post__center">
+      <div class="post__heb post__heb--xl">מַעְגַּל הַשָּׁנָה</div>
+      <div class="post__rule"></div>
+      <p class="post__sub">Cada época guarda un secreto.</p>
+    </div>
+    <div class="post__logo"><img src="assets/creeser-logo.png" alt="Cree Ser"></div>
+  </article>
+
+  <article class="post deep" data-name="T4 · El tiempo no es casualidad">
+    <div class="post__rays"><svg width="360" height="120" viewBox="0 0 360 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M180 120V14"/><path d="M180 120 130 28"/><path d="M180 120 230 28"/><path d="M180 120 84 50"/><path d="M180 120 276 50"/></svg></div>
+    <div class="post__center">
+      <h2 class="post__msg">El <em>tiempo</em><br>no es casualidad</h2>
+      <div class="post__heb post__heb--sm">מוֹעֲדִים</div>
+      <div class="post__rule"></div>
+      <p class="post__sub">Descúbrelo con nosotras.</p>
+    </div>
+    <div class="post__logo chip"><img src="assets/creeser-logo.png" alt="Cree Ser"></div>
+  </article>
+
+  <article class="post deep" data-name="T5 · Koaj HaDibur">
+    <div class="post__rays"><svg width="360" height="120" viewBox="0 0 360 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M180 120V14"/><path d="M180 120 130 28"/><path d="M180 120 230 28"/><path d="M180 120 84 50"/><path d="M180 120 276 50"/></svg></div>
+    <div class="post__center">
+      <div class="post__heb post__heb--xl">כֹּחַ הַדִּבּוּר</div>
+      <div class="post__rule"></div>
+      <p class="post__sub">Una palabra puede cambiarlo todo.</p>
+    </div>
+    <div class="post__logo chip"><img src="assets/creeser-logo.png" alt="Cree Ser"></div>
+  </article>
+
+  <article class="post light glow-blush" data-name="T5 · Lo que dices te define">
+    <div class="post__rays"><svg width="320" height="110" viewBox="0 0 360 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M180 120V18"/><path d="M180 120 134 34"/><path d="M180 120 226 34"/><path d="M180 120 92 56"/><path d="M180 120 268 56"/></svg></div>
+    <div class="post__center">
+      <h2 class="post__msg">Lo que <em>dices</em><br>te define</h2>
+      <div class="post__heb post__heb--sm">מָוֶת וְחַיִּים בְּיַד לָשׁוֹן</div>
+      <div class="post__rule"></div>
+      <p class="post__sub">Pronto, en Cree Ser.</p>
+    </div>
+    <div class="post__logo"><img src="assets/creeser-logo.png" alt="Cree Ser"></div>
+  </article>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.js"></script>
+<script src="logo-data.js"></script>
+<script>
+  const src = document.getElementById('src');
+  // Inline the logo as a data-URI so html-to-image always embeds it
+  if(window.CREESER_LOGO){ src.querySelectorAll('.post__logo img').forEach(im => im.src = window.CREESER_LOGO); }
+  const posts = Array.from(src.children);
+  const grid = document.getElementById('grid');
+
+  // off-screen host with real layout (needed for html-to-image)
+  const host = document.createElement('div');
+  host.style.cssText = 'position:fixed;left:-20000px;top:0;width:1080px;z-index:-1;pointer-events:none;';
+  document.body.appendChild(host);
+
+  function fileName(p, i){
+    const slug = (p.dataset.name || 'post').replace(/·/g,'').replace(/[^a-z0-9]+/gi,'-').replace(/^-|-$/g,'').toLowerCase();
+    return 'creeser-' + String(i+1).padStart(2,'0') + '-' + slug + '.jpg';
+  }
+
+  async function downloadPost(i, btn){
+    const p = posts[i];
+    const node = p.cloneNode(true);
+    host.appendChild(node);
+    const label = btn ? btn.innerHTML : '';
+    if(btn){ btn.disabled = true; btn.textContent = 'Generando…'; }
+    try{
+      await document.fonts.ready;
+      await new Promise(r => setTimeout(r, 80));
+      const dataUrl = await htmlToImage.toJpeg(node, { width:1080, height:1920, quality:0.95, pixelRatio:1, backgroundColor:'#ffffff' });
+      const a = document.createElement('a');
+      a.href = dataUrl; a.download = fileName(p, i);
+      document.body.appendChild(a); a.click(); a.remove();
+    }catch(e){
+      console.error(e);
+      alert('No se pudo generar la imagen. Intenta de nuevo.');
+    }finally{
+      host.removeChild(node);
+      if(btn){ btn.disabled = false; btn.innerHTML = label; }
+    }
+  }
+
+  // build grouped gallery
+  const groups = [
+    { t:'Campaña de expectativa', s:'Cuenta regresiva del nuevo ciclo', a:0,  b:10 },
+    { t:'Temas del ciclo',        s:'Teaser por tema · palabra clave o pasuk', a:10, b:20 }
+  ];
+  groups.forEach(g => {
+    const h = document.createElement('div');
+    h.className = 'group';
+    h.innerHTML = '<span>' + g.s + '</span>' + g.t;
+    grid.appendChild(h);
+    const row = document.createElement('div');
+    row.className = 'row';
+    for(let i = g.a; i < g.b && i < posts.length; i++){
+      const p = posts[i];
+      const card = document.createElement('div');
+      card.className = 'card';
+      const thumb = document.createElement('div');
+      thumb.className = 'thumb';
+      thumb.appendChild(p.cloneNode(true));
+      const name = document.createElement('div');
+      name.className = 'name';
+      name.textContent = p.dataset.name;
+      const btn = document.createElement('button');
+      btn.className = 'dl';
+      btn.innerHTML = '&#x2193;&nbsp; Descargar JPG';
+      btn.addEventListener('click', () => downloadPost(i, btn));
+      card.appendChild(thumb);
+      card.appendChild(name);
+      card.appendChild(btn);
+      row.appendChild(card);
+    }
+    grid.appendChild(row);
+  });
+
+  // download all
+  const allBtn = document.getElementById('dlall');
+  if(allBtn){
+    allBtn.addEventListener('click', async () => {
+      allBtn.disabled = true;
+      const o = allBtn.innerHTML;
+      for(let i = 0; i < posts.length; i++){
+        allBtn.textContent = 'Descargando ' + (i+1) + ' / ' + posts.length + '…';
+        await downloadPost(i, null);
+        await new Promise(r => setTimeout(r, 500));
+      }
+      allBtn.innerHTML = o;
+      allBtn.disabled = false;
+    });
+  }
+</script>
+</body>
+</html>

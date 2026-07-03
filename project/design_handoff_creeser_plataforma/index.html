@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cree Ser — Torá y valores desde el corazón</title>
+<meta name="description" content="Cree Ser · Un nuevo ciclo de clases de Torá, valores y crecimiento para jóvenes. Clases en vivo, calendario, grabaciones y comunidad.">
+<link rel="icon" type="image/png" href="assets/creeser-logo.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ===================== TOPBAR ===================== -->
+<div class="topbar">
+  Inscripciones abiertas para el nuevo ciclo <span class="heb">תשפ״ז</span> 5787 ·
+  <a href="#inscripciones">Reserva tu lugar →</a>
+</div>
+
+<!-- ===================== NAV ===================== -->
+<header class="nav">
+  <div class="nav__in">
+    <a href="#inicio" class="nav__logo" aria-label="Cree Ser inicio">
+      <img src="assets/creeser-logo.png" alt="Cree Ser">
+    </a>
+    <nav class="nav__links">
+      <a href="#temario">Temario</a>
+      <a href="#calendario">Calendario</a>
+      <a href="#avisos">Avisos</a>
+      <a href="#inscripciones">Inscripciones</a>
+      <a href="#pagos">Pagos</a>
+      <a href="#acerca">Acerca de</a>
+      <a href="#grabaciones">Grabaciones</a>
+    </nav>
+    <div class="nav__cta">
+      <button type="button" class="btn btn--ghost btn--sm" data-action="login" id="nav-account">Ingresar</button>
+      <a href="#inscripciones" class="btn btn--primary btn--sm">Inscríbete</a>
+      <button class="nav__burger" aria-label="Menú">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mm-back"></div>
+<aside class="mobile-menu">
+  <a href="#programas">Programas</a>
+  <a href="#temario">Temario</a>
+  <a href="#calendario">Calendario</a>
+  <a href="#grabaciones">Grabaciones</a>
+  <a href="#avisos">Avisos</a>
+  <a href="#inscripciones">Inscripciones</a>
+  <a href="#pagos">Pagos</a>
+  <a href="#acerca">Acerca de</a>
+  <a href="#inscripciones" class="btn btn--primary">Inscríbete</a>
+</aside>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero" id="inicio">
+  <div class="hero__bg"></div>
+  <div class="wrap hero__in">
+    <div class="hero__mark reveal"><img src="assets/creeser-logo.png" alt="Cree Ser"></div>
+    <p class="eyebrow eyebrow--gold reveal" style="justify-content:center;margin-bottom:20px">Nuevo ciclo · 5787</p>
+    <h1 class="reveal"><span class="hl">Cree</span> en ti misma,<br><span class="hl">sé</span> tu mejor versión.</h1>
+    <p class="hero__sub reveal">Desarrollando el <span class="heb">דְּבֵקוּת</span> con la Torá,<br>desde el amor y la profundidad.</p>
+    <div class="hero__cta reveal">
+      <a href="#inscripciones" class="btn btn--primary btn--lg">Inscríbete</a>
+      <a href="#calendario" class="btn btn--ghost btn--lg">Ver calendario</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROGRAMAS ===================== -->
+<section class="section" id="programas">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow eyebrow--gold">Nuestros programas · <span class="heb">שְׁנֵי מַסְלוּלִים</span></p>
+      <h2 class="display">Elige tu grupo</h2>
+      <p class="lead">Dos caminos para sumarte al ciclo, según el horario que mejor te acomode.</p>
+    </div>
+    <div class="tracks" style="grid-template-columns:repeat(2,1fr);max-width:840px;margin-inline:auto">
+      <div class="track reveal">
+        <div class="track__top" style="background:linear-gradient(90deg,var(--teal-bright),var(--teal-deep))"></div>
+        <p class="age">Programa</p>
+        <h3>Mañanas</h3>
+        <p class="track__heb">בֹּקֶר</p>
+        <p>Dos veces por semana · edades de 18 a 21 años.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Lunes y Miércoles</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Dos clases por día · 11:30 y 12:40</li>
+        </ul>
+        <a href="#inscripciones" class="btn btn--primary">Quiero Mañanas</a>
+      </div>
+
+      <div class="track reveal">
+        <div class="track__top" style="background:linear-gradient(90deg,var(--gold-soft),var(--gold))"></div>
+        <p class="age">Programa</p>
+        <h3>Tardes</h3>
+        <p class="track__heb">עֶרֶב</p>
+        <p>Una vez a la semana · edad preparatoria.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Miércoles</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Una clase · 7:30 pm</li>
+        </ul>
+        <a href="#inscripciones" class="btn btn--ghost">Quiero Tardes</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TEMARIO ===================== -->
+<section class="section" id="temario">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow eyebrow--gold">Temario del ciclo · <span class="heb">תָּכְנִית הַלִּמּוּד</span></p>
+      <h2 class="display">Lo que estudiaremos juntas</h2>
+      <p class="lead">Seis pilares que abordan una construcción personal y espiritual de todas las áreas de la vida y nuestra Neshamá <span class="heb">נְשָׁמָה</span>.</p>
+      <p class="temas-kicker"><span class="temas-kicker__line"></span> Los 6 pilares del ciclo <span class="temas-kicker__line"></span></p>
+    </div>
+
+    <div class="temas">
+      <article class="tema-card reveal">
+        <span class="tema-card__n">01</span>
+        <h3>Asher bajar banu</h3>
+        <p class="tema-card__heb">אֲשֶׁר בָּחַר בָּנוּ</p>
+        <ul>
+          <li>Haolam Hazé y Olam Habá <em class="heb">הָעוֹלָם הַזֶּה וְהַבָּא</em></li>
+          <li>La neshamá <em class="heb">נְשָׁמָה</em></li>
+          <li>Extremos: no somos iguales</li>
+        </ul>
+      </article>
+
+      <article class="tema-card reveal">
+        <span class="tema-card__n">02</span>
+        <h3>Valor propio</h3>
+        <p class="tema-card__heb">יָקָר</p>
+        <ul>
+          <li>Autoconocimiento</li>
+          <li>Presión social</li>
+          <li>Aprobación</li>
+        </ul>
+      </article>
+
+      <article class="tema-card reveal">
+        <span class="tema-card__n">03</span>
+        <h3>Comunicación</h3>
+        <p class="tema-card__heb">תִּקְשֹׁרֶת</p>
+        <ul>
+          <li>En pareja</li>
+          <li>Social</li>
+          <li>Familiar</li>
+          <li>Conflictos</li>
+        </ul>
+      </article>
+
+      <article class="tema-card reveal">
+        <span class="tema-card__n">04</span>
+        <h3>Eshet Jayil</h3>
+        <p class="tema-card__heb">אֵשֶׁת חַיִל</p>
+        <ul>
+          <li>El tafkid de la mujer <em class="heb">תַּפְקִיד</em></li>
+          <li>Tzniut <em class="heb">צְנִיעוּת</em></li>
+        </ul>
+      </article>
+
+      <article class="tema-card reveal">
+        <span class="tema-card__n">05</span>
+        <h3>Midat HaJasidut</h3>
+        <p class="tema-card__heb">מִדַּת הַחֲסִידוּת</p>
+        <ul>
+          <li>Zrizut · Emet · Tzniut <em class="heb">זְרִיזוּת · אֱמֶת · צְנִיעוּת</em></li>
+          <li>Amor y relación con Hashem <em class="heb">אַהֲבַת ה׳</em></li>
+          <li>Neshamá y tefilá <em class="heb">נְשָׁמָה וּתְפִלָּה</em></li>
+        </ul>
+      </article>
+
+      <article class="tema-card reveal">
+        <span class="tema-card__n">06</span>
+        <h3>Tefilá</h3>
+        <p class="tema-card__heb">תְּפִלָּה</p>
+        <ul>
+          <li>Concentración</li>
+          <li>Entendimiento</li>
+          <li>Vínculo y gozo</li>
+        </ul>
+      </article>
+    </div>
+
+    <div class="temas-fijos reveal">
+      <span class="temas-fijos__label">Cada semana, además:</span>
+      <span class="temas-fijos__pill">Navi <em class="heb">נָבִיא</em></span>
+      <span class="temas-fijos__pill">Parashat HaShavua <em class="heb">פָּרָשַׁת הַשָּׁבוּעַ</em></span>
+      <span class="temas-fijos__pill">Jaguim · maagal hashaná <em class="heb">מַעְגַּל הַשָּׁנָה</em></span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CALENDARIO ===================== -->
+<section class="section about" id="calendario">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow eyebrow--gold">Calendario anual · <span class="heb">לוּחַ שִׁעוּרִים</span></p>
+      <h2 class="display">Todo el ciclo, en un solo lugar</h2>
+      <p class="lead">Clases los lunes y miércoles. Cambia entre Mañanas y Tardes para ver cada programa.</p>
+      <div class="cal__tracks" id="cal-tracks">
+        <button class="cal__track active" data-track="manana"><b>Mañanas</b><span>Lun y Mié · 11:30 y 12:40</span></button>
+        <button class="cal__track" data-track="tarde"><b>Tardes</b><span>Solo Mié · 7:30 pm</span></button>
+      </div>
+    </div>
+    <div class="calwrap">
+      <div class="calendar reveal">
+        <div class="cal__head">
+          <div class="cal__title" id="cal-title">Agosto 2026</div>
+          <div class="cal__nav">
+            <button id="cal-prev" aria-label="Mes anterior"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+            <button id="cal-next" aria-label="Mes siguiente"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></button>
+          </div>
+        </div>
+        <div class="cal__grid" id="cal-grid"></div>
+        <div class="callegend">
+          <span><span class="ev ev-live" style="width:9px;height:9px;border-radius:50%"></span> Clase de la sesión</span>
+          <span><span class="ev ev-spec" style="width:9px;height:9px;border-radius:50%"></span> Jag / fecha importante</span>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <p class="eyebrow" id="up-title" style="margin-bottom:18px">Próximas clases · Mañanas</p>
+        <div class="uplist" id="uplist"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== AVISOS ===================== -->
+<section class="section deep" id="avisos">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Avisos · <span class="heb">הוֹדָעוֹת</span></p>
+      <h2 class="display">Lo que necesitas saber</h2>
+    </div>
+    <div class="avisos avisos--3">
+      <div class="aviso reveal" style="background:rgba(255,255,255,.05);border-color:var(--line-light)">
+        <div class="aviso__ic" style="background:linear-gradient(135deg,var(--rose),#c85f7d)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.4-6.3-4.6L5.7 21l2.3-7.4-6-4.6h7.6z"/></svg>
+        </div>
+        <div>
+          <h4 style="color:#fff">Inscripciones abiertas</h4>
+          <p style="color:rgba(234,246,247,.78)">Hasta el 15 de agosto.</p>
+        </div>
+      </div>
+      <div class="aviso reveal" style="background:rgba(255,255,255,.05);border-color:var(--line-light)">
+        <div class="aviso__ic" style="background:linear-gradient(135deg,var(--teal-bright),var(--teal-deep))">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        </div>
+        <div>
+          <h4 style="color:#fff">Aparta tu lugar</h4>
+          <p style="color:rgba(234,246,247,.78)">Con el pago de inscripción reservas tu cupo.</p>
+        </div>
+      </div>
+      <div class="aviso reveal" style="background:rgba(255,255,255,.05);border-color:var(--line-light)">
+        <div class="aviso__ic" style="background:linear-gradient(135deg,var(--gold-soft),var(--gold))">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        </div>
+        <div>
+          <h4 style="color:#fff">Calendario final</h4>
+          <p style="color:rgba(234,246,247,.78)">Se publica el 30 de julio.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== INSCRIPCIONES ===================== -->
+<section class="section" id="inscripciones">
+  <div class="wrap">
+    <div class="enroll">
+      <div class="reveal">
+        <p class="eyebrow eyebrow--gold">Inscripciones · <span class="heb">הַרְשָׁמָה</span></p>
+        <h2 class="display" style="font-size:clamp(2.2rem,4.5vw,3.2rem);margin:.2em 0 .5em">Tu lugar te está<br>esperando</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step__n">1</div>
+            <div><h4>Elige tu grupo</h4><p>Mañanas (18–21) o Tardes (preparatoria). Si tienes dudas, te orientamos.</p></div>
+          </div>
+          <div class="step">
+            <div class="step__n">2</div>
+            <div><h4>Realiza tu pago</h4><p>Tu lugar se aparta solo con el pago de inscripción. Sin pago no se reserva el cupo.</p></div>
+          </div>
+          <div class="step">
+            <div class="step__n">3</div>
+            <div><h4>Confirma y comienza</h4><p>Validamos tu pago y te enviamos accesos, calendario y todo para empezar.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <form class="form reveal" id="enroll-form">
+        <h3>Reserva tu lugar</h3>
+        <p style="color:var(--ink-soft);font-size:14.5px;margin:0">Ciclo 5787 · cupo limitado</p>
+        <div class="field row">
+          <div><label for="nombre">Nombre</label><input id="nombre" type="text" placeholder="Tu nombre" required></div>
+          <div><label for="edad">Edad</label><input id="edad" type="number" min="14" max="120" placeholder="18" required></div>
+        </div>
+        <div class="field"><label for="email">Correo</label><input id="email" type="email" placeholder="tu@correo.com" required></div>
+        <div class="field"><label for="tel">WhatsApp</label><input id="tel" type="tel" placeholder="+52 ..." required></div>
+        <div class="field"><label for="sesion">¿A qué programa quieres inscribirte?</label>
+          <select id="sesion">
+            <option value="manana">Mañanas · Lun y Mié, 11:30 y 12:40 (dos clases)</option>
+            <option value="tarde">Tardes · Solo Miércoles, 7:30 pm</option>
+            <option value="ambas">Ambos programas</option>
+            <option value="">Aún no estoy segura — oriéntenme</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn--primary btn--lg">Continuar al pago</button>
+        <p style="text-align:center;font-size:13px;color:var(--ink-soft);margin:12px 0 0">Tu lugar se confirma una vez recibido el pago de inscripción.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PAGOS ===================== -->
+<section class="section about" id="pagos">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow eyebrow--gold">Pagos · <span class="heb">תַּשְׁלוּמִים</span></p>
+      <h2 class="display">Elige tu paquete</h2>
+      <p class="lead">Cada grupo tiene su mensualidad. La inscripción es única y aparta tu lugar.</p>
+    </div>
+
+    <div class="pay">
+      <!-- Paquete Mañanas -->
+      <div class="pay-card pay-card--feature reveal">
+        <span class="pay-card__tag pay-card__tag--gold">Paquete · Mañanas</span>
+        <h3>Mañanas</h3>
+        <p class="pay-card__sub">Lun y Mié · 11:30 y 12:40 · edades 18–21.</p>
+        <div class="pay-amount">$2,500<small> MXN / mes</small></div>
+        <ul class="pay-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Dos clases por día, dos veces por semana</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Pago en línea con tarjeta · cargo automático</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Acceso a las grabaciones del ciclo</li>
+        </ul>
+        <button type="button" class="btn btn--gold" style="width:100%" data-requires-auth data-action="mensualidad">Pagar mensualidad</button>
+        <p class="pay-card__mini">Tarjeta · SPEI · PayPal</p>
+      </div>
+
+      <!-- Paquete Tardes -->
+      <div class="pay-card reveal">
+        <span class="pay-card__tag">Paquete · Tardes</span>
+        <h3>Tardes</h3>
+        <p class="pay-card__sub">Solo Miércoles · 7:30 pm · preparatoria.</p>
+        <div class="pay-amount">$800<small> MXN / mes</small></div>
+        <ul class="pay-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Una clase por semana</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Pago en línea con tarjeta · cargo automático</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Acceso a las grabaciones del ciclo</li>
+        </ul>
+        <button type="button" class="btn btn--primary" style="width:100%" data-requires-auth data-action="mensualidad">Pagar mensualidad</button>
+        <p class="pay-card__mini" style="color:var(--ink-soft)">Tarjeta · SPEI · PayPal</p>
+      </div>
+    </div>
+
+    <!-- Inscripción -->
+    <div class="pay-insc reveal">
+      <div class="pay-insc__head">
+        <span class="pay-card__tag">Inscripción · pago único</span>
+        <h3 class="pay-insc__price">$1,000 <small>MXN</small></h3>
+        <p>Aparta tu lugar. Realiza una transferencia y sube tu comprobante — confirmamos tu cupo en cuanto lo validamos.</p>
+        <button type="button" class="btn btn--primary" data-requires-auth data-action="comprobante">Subir comprobante</button>
+      </div>
+      <div class="bankbox">
+        <div class="bankrow"><span>Nombre</span><b>CreeSer</b></div>
+        <div class="bankrow"><span>CLABE</span><b>684180253007001522</b></div>
+        <div class="bankrow"><span>Institución</span><b>OPM / TRANSFER</b></div>
+        <div class="bankrow"><span>Concepto</span><b>Nombre + grupo</b></div>
+      </div>
+    </div>
+
+    <p class="pay-foot reveal">¿Necesitas una beca o facilidades de pago? <a href="#inscripciones">Escríbenos</a> — ninguna joven se queda fuera por motivos económicos.</p>
+  </div>
+</section>
+
+<!-- ===================== ACERCA DE ===================== -->
+<section class="section" id="acerca">
+  <div class="wrap">
+    <div class="about__grid">
+      <div class="reveal">
+        <p class="eyebrow eyebrow--gold">Acerca de · <span class="heb">מִי אֲנַחְנוּ</span></p>
+        <p class="about__lead">Cree Ser es donde la Torá <span class="gold-text">se vive desde el corazón</span> —
+          donde las bases de la Torá son la base de tu vida, tu avodat Hashem es auténtica
+          y logramos ser quienes queremos ser.</p>
+        <div class="spark-rule" style="justify-content:flex-start;margin-top:14px">
+          <img src="assets/creeser-logo.png" alt="" style="width:120px">
+        </div>
+      </div>
+      <div class="values reveal">
+        <div class="value">
+          <div class="value__ic" style="background:linear-gradient(135deg,var(--rose),#c85f7d)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7z"/></svg>
+          </div>
+          <div><h4>Desde el corazón <span class="heb">בְּלֵב שָׁלֵם</span></h4>
+            <p>Transmitimos valores desde el alma, no solo desde la mente.</p></div>
+        </div>
+        <div class="value">
+          <div class="value__ic" style="background:linear-gradient(135deg,var(--teal-bright),var(--teal-deep))">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          </div>
+          <div><h4>Con bases de Torá <span class="heb">תּוֹרָה</span></h4>
+            <p>Pensar diferente, sí — pero siempre con fuentes y fundamentos sólidos.</p></div>
+        </div>
+        <div class="value">
+          <div class="value__ic" style="background:linear-gradient(135deg,var(--gold-soft),var(--gold))">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 2v8M12 22c-3 0-5-2-5-5 0-2.5 2-4.5 5-7 3 2.5 5 4.5 5 7 0 3-2 5-5 5z"/></svg>
+          </div>
+          <div><h4>Avodat Hashem auténtica <span class="heb">עֲבוֹדַת ה׳</span></h4>
+            <p>Una relación con Hashem real, viva y profundamente personal.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== GRABACIONES ===================== -->
+<section class="section" id="grabaciones">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow eyebrow--gold">Grabaciones · <span class="heb">הַקְלָטוֹת</span></p>
+      <h2 class="display">Vuelve a cada clase, cuando la necesites</h2>
+      <p class="lead">Toda la biblioteca de shiurim, organizada por tema. Nunca te pierdas una palabra de Torá.</p>
+    </div>
+
+    <div class="gated" id="grab-gate">
+    <div class="gate-lock reveal">
+      <div class="gate-lock__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+      <h3>Contenido solo para inscritas</h3>
+      <p>Las grabaciones están disponibles para las alumnas del ciclo. Inicia sesión con tu cuenta para verlas.</p>
+      <div class="gate-lock__cta">
+        <button type="button" class="btn btn--primary btn--lg" data-action="login">Iniciar sesión</button>
+        <a href="#inscripciones" class="btn btn--ghost btn--lg">Quiero inscribirme</a>
+      </div>
+    </div>
+
+    <div class="gate-content">
+    <div class="filters reveal">
+      <button class="chip active" data-filter="all">Todas</button>
+      <button class="chip" data-filter="asher">Asher bajar banu</button>
+      <button class="chip" data-filter="valor">Valor propio</button>
+      <button class="chip" data-filter="comunicacion">Comunicación</button>
+      <button class="chip" data-filter="eshet">Eshet Jayil</button>
+      <button class="chip" data-filter="jasidut">Jasidut</button>
+      <button class="chip" data-filter="tefila">Tefilá</button>
+    </div>
+
+    <div class="recs">
+      <article class="rec reveal" data-tema="asher">
+        <div class="rec__thumb" style="background:linear-gradient(150deg,#2A9CA8,#1B6E78)">
+          <span class="pill pill--soft rec__tema" style="background:rgba(255,255,255,.85)">Asher bajar banu</span>
+          <div class="rec__play"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+          <span class="rec__dur">52 min</span>
+        </div>
+        <div class="rec__body"><h4>Asher bajar banu: el regalo de ser elegida</h4>
+          <div class="meta"><span class="heb" style="color:var(--gold-deep)">אֲשֶׁר בָּחַר בָּנוּ</span> · Pilar 01</div></div>
+      </article>
+
+      <article class="rec reveal" data-tema="valor">
+        <div class="rec__thumb" style="background:linear-gradient(150deg,#5E8AD0,#37589e)">
+          <span class="pill pill--soft rec__tema" style="background:rgba(255,255,255,.85)">Valor propio</span>
+          <div class="rec__play"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+          <span class="rec__dur">47 min</span>
+        </div>
+        <div class="rec__body"><h4>Tu valor no depende de la aprobación</h4>
+          <div class="meta"><span class="heb" style="color:var(--gold-deep)">יָקָר</span> · Pilar 02</div></div>
+      </article>
+
+      <article class="rec reveal" data-tema="comunicacion">
+        <div class="rec__thumb" style="background:linear-gradient(150deg,#C5933E,#A9772A)">
+          <span class="pill pill--soft rec__tema" style="background:rgba(255,255,255,.85)">Comunicación</span>
+          <div class="rec__play"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+          <span class="rec__dur">38 min</span>
+        </div>
+        <div class="rec__body"><h4>Hablar y escuchar: el arte del vínculo</h4>
+          <div class="meta"><span class="heb" style="color:var(--gold-deep)">תִּקְשׁוֹרֶת</span> · Pilar 03</div></div>
+      </article>
+
+      <article class="rec reveal" data-tema="eshet">
+        <div class="rec__thumb" style="background:linear-gradient(150deg,#DD7E97,#b85675)">
+          <span class="pill pill--soft rec__tema" style="background:rgba(255,255,255,.85)">Eshet Jayil</span>
+          <div class="rec__play"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+          <span class="rec__dur">61 min</span>
+        </div>
+        <div class="rec__body"><h4>Eshet Jayil: la fuerza de la mujer judía</h4>
+          <div class="meta"><span class="heb" style="color:var(--gold-deep)">אֵשֶׁת חַיִל</span> · Pilar 04</div></div>
+      </article>
+
+      <article class="rec reveal" data-tema="jasidut">
+        <div class="rec__thumb" style="background:linear-gradient(150deg,#3CB6BE,#2A9CA8)">
+          <span class="pill pill--soft rec__tema" style="background:rgba(255,255,255,.85)">Jasidut</span>
+          <div class="rec__play"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+          <span class="rec__dur">44 min</span>
+        </div>
+        <div class="rec__body"><h4>Midat HaJasidut: ir más allá de lo justo</h4>
+          <div class="meta"><span class="heb" style="color:var(--gold-deep)">מִדַּת הַחֲסִידוּת</span> · Pilar 05</div></div>
+      </article>
+
+      <article class="rec reveal" data-tema="tefila">
+        <div class="rec__thumb" style="background:linear-gradient(150deg,#1B6E78,#0E3A40)">
+          <span class="pill pill--soft rec__tema" style="background:rgba(255,255,255,.85)">Tefilá</span>
+          <div class="rec__play"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+          <span class="rec__dur">55 min</span>
+        </div>
+        <div class="rec__body"><h4>Tefilá: aprender a hablar con Hashem</h4>
+          <div class="meta"><span class="heb" style="color:var(--gold-deep)">תְּפִלָּה</span> · Pilar 06</div></div>
+      </article>
+        </div>
+    </div><!-- /gate-content -->
+    </div><!-- /gated -->
+  </div>
+</section>
+
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <img src="assets/creeser-logo.png" alt="Cree Ser">
+        <p>Torá y valores desde el corazón. Un nuevo ciclo de crecimiento espiritual para jóvenes.</p>
+        <p class="footer__heb">עִבְדוּ אֶת ה׳ בְּשִׂמְחָה</p>
+      </div>
+      <div>
+        <h5>Programa</h5>
+        <ul>
+          <li><a href="#calendario">Calendario</a></li>
+          <li><a href="#grabaciones">Grabaciones</a></li>
+          <li><a href="#programas">Programas</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Comunidad</h5>
+        <ul>
+          <li><a href="#inscripciones">Inscripciones</a></li>
+          <li><a href="#avisos">Avisos</a></li>
+          <li><a href="#acerca">Acerca de</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Contacto</h5>
+        <ul>
+          <li><a href="https://wa.me/525634444434">Bella Sitt · 56 3444 4434</a></li>
+          <li><a href="https://wa.me/525555098288">Jenny Sitt · 55 5509 8288</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 Cree Ser · בס״ד · Todos los derechos reservados.</span>
+      <div class="footer__social">
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+        <a href="#" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-4-1L3 20l1-5.5a8.38 8.38 0 0 1-1-4A8.5 8.5 0 0 1 11.5 2 8.38 8.38 0 0 1 21 11.5z"/></svg></a>
+        <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M22 8.6a3 3 0 0 0-2-2C18 6 12 6 12 6s-6 0-8 .6a3 3 0 0 0-2 2A31 31 0 0 0 2 12a31 31 0 0 0 0 3.4 3 3 0 0 0 2 2C6 18 12 18 12 18s6 0 8-.6a3 3 0 0 0 2-2 31 31 0 0 0 0-3.4 31 31 0 0 0 0-3.4z"/><path d="M10 15l5-3-5-3z" fill="currentColor" stroke="none"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ===================== MODAL: LOGIN / CUENTA ===================== -->
+<div class="modal-back" id="modal-back"></div>
+<div class="modal" id="auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+  <button type="button" class="modal__close" data-action="close-modal" aria-label="Cerrar">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+  </button>
+  <div class="modal__mark"><img src="assets/creeser-logo.png" alt="Cree Ser"></div>
+
+  <!-- Vista: iniciar sesión -->
+  <div data-view="login">
+    <h3 id="auth-title">Inicia sesión</h3>
+    <p class="modal__sub">Acceso para alumnas inscritas al ciclo.</p>
+    <form id="login-form">
+      <div class="field"><label for="li-email">Correo</label><input id="li-email" type="email" placeholder="tu@correo.com" required></div>
+      <div class="field"><label for="li-pass">Contraseña</label><input id="li-pass" type="password" placeholder="••••••••" required></div>
+      <p class="modal__err" id="login-err" hidden>Correo o contraseña incorrectos.</p>
+      <button type="submit" class="btn btn--primary btn--lg" style="width:100%">Entrar</button>
+    </form>
+    <p class="modal__switch">¿Aún no tienes cuenta? <button type="button" data-view-go="signup">Crear cuenta</button></p>
+  </div>
+
+  <!-- Vista: crear cuenta -->
+  <div data-view="signup" hidden>
+    <h3>Crea tu cuenta</h3>
+    <p class="modal__sub">Para alumnas ya inscritas. Si aún no te inscribes, <a href="#inscripciones" data-action="close-modal">hazlo aquí</a>.</p>
+    <form id="signup-form">
+      <div class="field"><label for="su-name">Nombre</label><input id="su-name" type="text" placeholder="Tu nombre" required></div>
+      <div class="field"><label for="su-email">Correo</label><input id="su-email" type="email" placeholder="tu@correo.com" required></div>
+      <div class="field"><label for="su-pass">Contraseña</label><input id="su-pass" type="password" placeholder="Crea una contraseña" required minlength="4"></div>
+      <button type="submit" class="btn btn--primary btn--lg" style="width:100%">Crear cuenta</button>
+    </form>
+    <p class="modal__switch">¿Ya tienes cuenta? <button type="button" data-view-go="login">Inicia sesión</button></p>
+  </div>
+
+  <!-- Vista: sesión iniciada -->
+  <div data-view="account" hidden>
+    <h3>Hola, <span id="acct-name">alumna</span> 🌟</h3>
+    <p class="modal__sub">Ya tienes acceso a las grabaciones y a tu área de pagos.</p>
+    <div class="modal__actions">
+      <a href="#grabaciones" class="btn btn--primary btn--lg" data-action="close-modal" style="width:100%">Ver grabaciones</a>
+      <button type="button" class="btn btn--ghost btn--lg" data-action="logout" style="width:100%">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <!-- Vista: subir comprobante -->
+  <div data-view="comprobante" hidden>
+    <h3>Subir comprobante</h3>
+    <p class="modal__sub">Adjunta tu comprobante de pago. Validaremos y confirmaremos tu lugar.</p>
+    <form id="comp-form">
+      <div class="field"><label for="cp-concepto">Concepto</label>
+        <select id="cp-concepto">
+          <option>Inscripción · $1,000 MXN</option>
+          <option>Mensualidad Mañanas · $2,500 MXN</option>
+          <option>Mensualidad Tardes · $800 MXN</option>
+        </select>
+      </div>
+      <label class="filedrop" for="cp-file">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5M12 3v12"/></svg>
+        <span id="cp-filename">Toca para elegir imagen o PDF</span>
+        <input id="cp-file" type="file" accept="image/*,application/pdf" hidden>
+      </label>
+      <button type="submit" class="btn btn--primary btn--lg" style="width:100%">Enviar comprobante</button>
+    </form>
+  </div>
+</div>
+
+<template id="__bundler_thumbnail">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <rect width="100" height="100" fill="#0E3A40"/>
+    <circle cx="50" cy="42" r="20" fill="none" stroke="#E6C982" stroke-width="2"/>
+    <path d="M50 30 L50 54 M40 36 L60 48 M60 36 L40 48" stroke="#3CB6BE" stroke-width="2" stroke-linecap="round"/>
+    <text x="50" y="80" font-family="Georgia, serif" font-size="13" fill="#fff" text-anchor="middle">Cree Ser</text>
+  </svg>
+</template>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+<script src="sheets.js"></script>
+<script src="auth.js"></script>
+</body>
+</html>
