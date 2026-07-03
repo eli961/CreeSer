@@ -80,7 +80,7 @@ export default function Calendario({ clases, fechas }: Props) {
       cls.forEach((c) =>
         parts.push(
           "· " +
-            c.hora.split("–")[0].trim() +
+            c.hora.split("-")[0].trim() +
             " — " +
             (c.tema || "Tema por definir") +
             (c.ponente ? " · " + c.ponente : "")

@@ -83,8 +83,8 @@ export interface ClaseRow {
 }
 
 const HORAS_DEFAULT: Record<PlanGrupo, string[]> = {
-  manana: ["11:30 – 12:30", "12:40 – 13:40"],
-  tarde: ["7:30 – 8:30 pm"],
+  manana: ["11:30 - 12:30", "12:40 - 13:40"],
+  tarde: ["7:30 - 8:30 pm"],
 };
 
 function parseTab(text: string, grupo: PlanGrupo): ClaseRow[] {
