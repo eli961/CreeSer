@@ -12,12 +12,22 @@ const CONCEPTOS = [
   { label: "Mensualidad Tardes · $800 MXN", tipo: "mensualidad" as const, monto: 800, plan: "tarde" },
 ];
 
+function IconGoogle() {
+  return (
+    <svg viewBox="0 0 48 48" width="18" height="18">
+      <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 3l5.7-5.7C34.6 6.1 29.6 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"/>
+      <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.8 18.9 13 24 13c3.1 0 5.8 1.1 8 3l5.7-5.7C34.6 6.1 29.6 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
+      <path fill="#4CAF50" d="M24 44c5.5 0 10.4-1.9 14.3-5.1l-6.6-5.6C29.6 35.1 26.9 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.6 5.1C9.6 39.6 16.3 44 24 44z"/>
+      <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.2 4.2-4.2 5.6l6.6 5.6C39.4 37.6 44 31.4 44 24c0-1.3-.1-2.7-.4-3.5z"/>
+    </svg>
+  );
+}
+
 export default function AuthModal() {
-  const { modalView, closeModal, openModal, user, profile, refresh } = useSite();
+  const { modalView, closeModal, openModal, user, profile, refresh, signInWithGoogle } = useSite();
   const supabase = createClient();
 
-  const [loginErr, setLoginErr] = useState<string | null>(null);
-  const [signupErr, setSignupErr] = useState<string | null>(null);
+  const [googleErr, setGoogleErr] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
   const [conceptoIdx, setConceptoIdx] = useState(0);
@@ -26,47 +36,15 @@ export default function AuthModal() {
 
   const open = modalView !== null;
 
-  async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setLoginErr(null);
+  async function handleGoogleLogin() {
+    setGoogleErr(null);
     setBusy(true);
-    const form = new FormData(e.currentTarget);
-    const email = String(form.get("email") || "").trim().toLowerCase();
-    const password = String(form.get("password") || "");
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    setBusy(false);
+    const { error } = await signInWithGoogle();
     if (error) {
-      setLoginErr("Correo o contraseña incorrectos.");
-      return;
+      setGoogleErr(error);
+      setBusy(false);
     }
-    await refresh();
-    openModal("account");
-  }
-
-  async function handleSignup(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setSignupErr(null);
-    setBusy(true);
-    const form = new FormData(e.currentTarget);
-    const nombre = String(form.get("nombre") || "").trim();
-    const email = String(form.get("email") || "").trim().toLowerCase();
-    const password = String(form.get("password") || "");
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { data: { nombre } },
-    });
-    setBusy(false);
-    if (error) {
-      setSignupErr(error.message);
-      return;
-    }
-    if (data.session) {
-      await refresh();
-      openModal("account");
-    } else {
-      setSignupErr("Cuenta creada. Revisa tu correo para confirmarla antes de iniciar sesión.");
-    }
+    // si no hay error, el navegador redirige a Google — no hay más que hacer aquí.
   }
 
   async function handleLogout() {
@@ -141,63 +119,16 @@ export default function AuthModal() {
           <div>
             <h3 id="auth-title">Inicia sesión</h3>
             <p className="modal__sub">Acceso para alumnas inscritas al ciclo.</p>
-            <form onSubmit={handleLogin}>
-              <div className="field">
-                <label htmlFor="li-email">Correo</label>
-                <input id="li-email" name="email" type="email" placeholder="tu@correo.com" required />
-              </div>
-              <div className="field">
-                <label htmlFor="li-pass">Contraseña</label>
-                <input id="li-pass" name="password" type="password" placeholder="••••••••" required />
-              </div>
-              {loginErr && <p className="modal__err">{loginErr}</p>}
-              <button type="submit" className="btn btn--primary btn--lg" style={{ width: "100%" }} disabled={busy}>
-                {busy ? "Entrando…" : "Entrar"}
-              </button>
-            </form>
-            <p className="modal__switch">
-              ¿Aún no tienes cuenta?{" "}
-              <button type="button" onClick={() => openModal("signup")}>
-                Crear cuenta
-              </button>
-            </p>
-          </div>
-        )}
-
-        {modalView === "signup" && (
-          <div>
-            <h3>Crea tu cuenta</h3>
-            <p className="modal__sub">
-              Para alumnas ya inscritas. Si aún no te inscribes,{" "}
-              <a href="#inscripciones" onClick={closeModal}>
-                hazlo aquí
-              </a>
-              .
-            </p>
-            <form onSubmit={handleSignup}>
-              <div className="field">
-                <label htmlFor="su-name">Nombre</label>
-                <input id="su-name" name="nombre" type="text" placeholder="Tu nombre" required />
-              </div>
-              <div className="field">
-                <label htmlFor="su-email">Correo</label>
-                <input id="su-email" name="email" type="email" placeholder="tu@correo.com" required />
-              </div>
-              <div className="field">
-                <label htmlFor="su-pass">Contraseña</label>
-                <input id="su-pass" name="password" type="password" placeholder="Crea una contraseña" required minLength={6} />
-              </div>
-              {signupErr && <p className="modal__err">{signupErr}</p>}
-              <button type="submit" className="btn btn--primary btn--lg" style={{ width: "100%" }} disabled={busy}>
-                {busy ? "Creando…" : "Crear cuenta"}
-              </button>
-            </form>
-            <p className="modal__switch">
-              ¿Ya tienes cuenta?{" "}
-              <button type="button" onClick={() => openModal("login")}>
-                Inicia sesión
-              </button>
-            </p>
+            <button
+              type="button"
+              className="btn btn--ghost btn--lg"
+              style={{ width: "100%", gap: 10 }}
+              onClick={handleGoogleLogin}
+              disabled={busy}
+            >
+              <IconGoogle /> {busy ? "Abriendo Google…" : "Continuar con Google"}
+            </button>
+            {googleErr && <p className="modal__err" style={{ marginTop: 14 }}>{googleErr}</p>}
           </div>
         )}
 

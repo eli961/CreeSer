@@ -19,6 +19,9 @@ create table if not exists public.profiles (
 );
 
 -- Crea el profile automáticamente cuando alguien se registra en Supabase Auth.
+-- El login es con Google: su nombre llega en el metadata OAuth como "full_name"
+-- o "name" (no "nombre", que era el campo del signup por correo/contraseña que
+-- ya no se usa, pero se deja como último recurso por compatibilidad).
 create or replace function public.handle_new_user()
 returns trigger
 language plpgsql
@@ -26,7 +29,16 @@ security definer set search_path = public
 as $$
 begin
   insert into public.profiles (id, nombre, email)
-  values (new.id, coalesce(new.raw_user_meta_data->>'nombre', split_part(new.email,'@',1)), new.email)
+  values (
+    new.id,
+    coalesce(
+      new.raw_user_meta_data->>'full_name',
+      new.raw_user_meta_data->>'name',
+      new.raw_user_meta_data->>'nombre',
+      split_part(new.email,'@',1)
+    ),
+    new.email
+  )
   on conflict (id) do nothing;
   return new;
 end;

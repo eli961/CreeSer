@@ -6,7 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import type { Profile, Suscripcion } from "@/lib/types";
 import { estaAlCorriente } from "@/lib/types";
 
-export type ModalView = "login" | "signup" | "account" | "comprobante" | null;
+export type ModalView = "login" | "account" | "comprobante" | null;
 
 interface SiteContextValue {
   user: User | null;
@@ -19,6 +19,7 @@ interface SiteContextValue {
   closeModal: () => void;
   refresh: () => Promise<void>;
   requireAuth: () => boolean;
+  signInWithGoogle: (next?: string) => Promise<{ error: string | null }>;
 }
 
 const SiteContext = createContext<SiteContextValue | null>(null);
@@ -81,6 +82,8 @@ export function SiteProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.get("login") !== "1") return;
+    // Syncing React state from the URL (an external system) on mount, not a render-driven update.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setModalView("login");
     params.delete("login");
     const query = params.toString();
@@ -103,6 +106,20 @@ export function SiteProvider({ children }: { children: React.ReactNode }) {
     return false;
   }, [user]);
 
+  const signInWithGoogle = useCallback(
+    async (next?: string) => {
+      const target = next ?? window.location.pathname + window.location.hash;
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(target || "/")}`,
+        },
+      });
+      return { error: error ? "No se pudo abrir el login de Google. Intenta de nuevo." : null };
+    },
+    [supabase]
+  );
+
   const alCorriente = profile ? estaAlCorriente(profile, suscripciones) : false;
 
   const value: SiteContextValue = {
@@ -116,6 +133,7 @@ export function SiteProvider({ children }: { children: React.ReactNode }) {
     closeModal,
     refresh,
     requireAuth,
+    signInWithGoogle,
   };
 
   return <SiteContext.Provider value={value}>{children}</SiteContext.Provider>;
