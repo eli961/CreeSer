@@ -143,13 +143,18 @@ $$;
 -- trigger también podría reescribir `rol` (auto-ascenderse a admin) o
 -- `estado_inscripcion` (marcarse "confirmada" sin pagar). Solo un admin puede
 -- cambiar esas dos columnas.
+--
+-- auth.uid() solo existe cuando el UPDATE llega autenticado a través de la app
+-- (PostgREST/Supabase Auth). Cuando se corre desde el SQL Editor o con la
+-- service_role key (auth.uid() es null), se deja pasar sin restricción — así
+-- se puede seguir haciendo admin a la primera cuenta a mano.
 create or replace function public.protect_profile_fields()
 returns trigger
 language plpgsql
 security definer set search_path = public
 as $$
 begin
-  if not public.is_admin() then
+  if auth.uid() is not null and not public.is_admin() then
     new.rol := old.rol;
     new.estado_inscripcion := old.estado_inscripcion;
   end if;
