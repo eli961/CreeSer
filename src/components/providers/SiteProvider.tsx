@@ -78,6 +78,16 @@ export function SiteProvider({ children }: { children: React.ReactNode }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("login") !== "1") return;
+    setModalView("login");
+    params.delete("login");
+    const query = params.toString();
+    const url = window.location.pathname + (query ? `?${query}` : "") + window.location.hash;
+    window.history.replaceState({}, "", url);
+  }, []);
+
   const openModal = useCallback(
     (view: ModalView = null) => {
       setModalView(view ?? (user ? "account" : "login"));
