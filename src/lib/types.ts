@@ -17,6 +17,7 @@ export interface Profile {
 export type TipoPago = "inscripcion" | "mensualidad";
 export type MetodoPago = "tarjeta" | "transferencia";
 export type EstadoPago = "pendiente" | "pagado" | "vencido" | "rechazado";
+export type Pasarela = "mercadopago" | "billpocket";
 
 export interface Pago {
   id: string;
@@ -30,6 +31,8 @@ export interface Pago {
   comprobante_url: string | null;
   mp_payment_id: string | null;
   mp_preference_id: string | null;
+  pasarela: Pasarela | null;
+  bp_transaction_id: string | null;
   created_at: string;
   pagado_en: string | null;
 }
@@ -45,6 +48,9 @@ export interface Suscripcion {
   plan: PlanGrupo;
   monto: number;
   proximo_cobro: string | null;
+  pasarela: Pasarela;
+  bp_contract_number: string | null;
+  bp_card_token: string | null;
   created_at: string;
 }
 

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useSite } from "@/components/providers/SiteProvider";
 import { IconCheck } from "@/components/icons";
+import BillpocketPayButton from "@/components/site/BillpocketPayButton";
 import type { PlanGrupo } from "@/lib/types";
 
 export default function Pagos() {
@@ -75,8 +76,17 @@ export default function Pagos() {
               onClick={() => handleMensualidad("manana")}
               disabled={loadingPlan === "manana"}
             >
-              {loadingPlan === "manana" ? "Redirigiendo…" : "Pagar mensualidad"}
+              {loadingPlan === "manana" ? "Redirigiendo…" : "Pagar con Mercado Pago"}
             </button>
+            <div style={{ marginTop: 10 }}>
+              <BillpocketPayButton
+                endpoint="/api/billpocket/mensualidad"
+                extra={{ plan: "manana" }}
+                buttonLabel="Pagar con tarjeta (Billpocket)"
+                buttonClassName="btn btn--outline-light"
+                montoLabel="Mensualidad Mañanas · $2,500 MXN"
+              />
+            </div>
             <p className="pay-card__mini">Tarjeta · SPEI · PayPal</p>
           </div>
 
@@ -105,8 +115,17 @@ export default function Pagos() {
               onClick={() => handleMensualidad("tarde")}
               disabled={loadingPlan === "tarde"}
             >
-              {loadingPlan === "tarde" ? "Redirigiendo…" : "Pagar mensualidad"}
+              {loadingPlan === "tarde" ? "Redirigiendo…" : "Pagar con Mercado Pago"}
             </button>
+            <div style={{ marginTop: 10 }}>
+              <BillpocketPayButton
+                endpoint="/api/billpocket/mensualidad"
+                extra={{ plan: "tarde" }}
+                buttonLabel="Pagar con tarjeta (Billpocket)"
+                buttonClassName="btn btn--ghost"
+                montoLabel="Mensualidad Tardes · $800 MXN"
+              />
+            </div>
             <p className="pay-card__mini" style={{ color: "var(--ink-soft)" }}>
               Tarjeta · SPEI · PayPal
             </p>
@@ -123,9 +142,18 @@ export default function Pagos() {
               Aparta tu lugar. Realiza una transferencia y sube tu comprobante — confirmamos tu cupo en cuanto lo
               validamos.
             </p>
-            <button type="button" className="btn btn--primary" onClick={handleComprobante}>
-              Subir comprobante
-            </button>
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+              <button type="button" className="btn btn--primary" onClick={handleComprobante}>
+                Subir comprobante
+              </button>
+              <BillpocketPayButton
+                endpoint="/api/billpocket/inscripcion"
+                buttonLabel="Pagar con tarjeta (Billpocket)"
+                buttonClassName="btn btn--ghost"
+                montoLabel="Inscripción · $1,000 MXN"
+                fullWidth={false}
+              />
+            </div>
           </div>
           <div className="bankbox">
             <div className="bankrow">

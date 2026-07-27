@@ -75,6 +75,7 @@ export default async function PagosPage() {
               <th>Tipo</th>
               <th>Monto</th>
               <th>Método</th>
+              <th>Pasarela</th>
               <th>Estado</th>
               <th>Fecha</th>
             </tr>
@@ -90,6 +91,7 @@ export default async function PagosPage() {
                     ${p.monto} {p.moneda}
                   </td>
                   <td>{p.metodo}</td>
+                  <td>{p.pasarela === "billpocket" ? "Billpocket" : p.pasarela === "mercadopago" ? "Mercado Pago" : "—"}</td>
                   <td>
                     <span
                       className={`badge ${
