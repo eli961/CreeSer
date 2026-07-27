@@ -15,10 +15,24 @@ import { verifyWebhookSignature } from "@/lib/billpocket";
  * campo `raw` que se guarda de todos modos en cada pago para poder
  * diagnosticarlo después.
  */
+// Billpocket hace una prueba de conectividad al guardar la URL del webhook en
+// su dashboard — típicamente sin cuerpo ni firma. Responder 200 aquí para que
+// esa prueba pase.
+export async function GET() {
+  return NextResponse.json({ ok: true });
+}
+
 export async function POST(req: Request) {
   const rawBody = await req.text();
   const signature = req.headers.get("x-bp-signature") || "";
   const signatureKeyIndex = req.headers.get("x-bp-signaturekey") || "";
+
+  // Sin firma: no es una notificación real de pago (probablemente el ping de
+  // conectividad de Billpocket al guardar la URL, o un POST vacío de prueba).
+  // No hay nada que verificar ni procesar — responder 200 y salir.
+  if (!signature || !signatureKeyIndex) {
+    return NextResponse.json({ ok: true });
+  }
 
   const valid = await verifyWebhookSignature(rawBody, signature, signatureKeyIndex);
   if (!valid) {
