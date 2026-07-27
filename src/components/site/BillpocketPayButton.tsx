@@ -86,7 +86,7 @@ export default function BillpocketPayButton({
           <IconClose />
         </button>
         <h3>Pagar con tarjeta</h3>
-        <p className="modal__sub">{montoLabel} · vía Billpocket</p>
+        <p className="modal__sub">{montoLabel}</p>
 
         {result === "approved" ? (
           <div style={{ textAlign: "center" }}>

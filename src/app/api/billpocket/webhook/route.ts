@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { verifyWebhookSignature } from "@/lib/billpocket";
+import { verifyWebhookSignature, matchesWebhookToken } from "@/lib/billpocket";
 
 /**
  * Billpocket llama esta ruta por HTTP POST solo cuando una autorización es
@@ -27,23 +27,33 @@ export async function POST(req: Request) {
   const signature = req.headers.get("x-bp-signature") || "";
   const signatureKeyIndex = req.headers.get("x-bp-signaturekey") || "";
 
-  // Sin firma: no es una notificación real de pago (probablemente el ping de
-  // conectividad de Billpocket al guardar la URL, o un POST vacío de prueba).
-  // No hay nada que verificar ni procesar — responder 200 y salir.
-  if (!signature || !signatureKeyIndex) {
+  let payload: Record<string, unknown> = {};
+  try {
+    payload = rawBody ? JSON.parse(rawBody) : {};
+  } catch {
+    return NextResponse.json({ error: "JSON inválido." }, { status: 400 });
+  }
+
+  // Nombre de header/campo del "Token" del dashboard sin confirmar — se
+  // revisan varias variantes plausibles (header o body) hasta ver una
+  // notificación real y confirmar cuál usa Billpocket.
+  const tokenCandidate =
+    req.headers.get("x-bp-token") ||
+    req.headers.get("token") ||
+    req.headers.get("x-bp-webhook-token") ||
+    (payload.token as string | undefined) ||
+    null;
+
+  // Sin firma NI token: no es una notificación real de pago (probablemente el
+  // ping de conectividad de Billpocket al guardar la URL). Nada que procesar.
+  if (!signature && !tokenCandidate) {
     return NextResponse.json({ ok: true });
   }
 
-  const valid = await verifyWebhookSignature(rawBody, signature, signatureKeyIndex);
-  if (!valid) {
-    return NextResponse.json({ error: "Firma inválida." }, { status: 401 });
-  }
-
-  let payload: Record<string, unknown>;
-  try {
-    payload = JSON.parse(rawBody);
-  } catch {
-    return NextResponse.json({ error: "JSON inválido." }, { status: 400 });
+  const validSignature = signature && signatureKeyIndex ? await verifyWebhookSignature(rawBody, signature, signatureKeyIndex) : false;
+  const validToken = matchesWebhookToken(tokenCandidate);
+  if (!validSignature && !validToken) {
+    return NextResponse.json({ error: "Firma/token inválido." }, { status: 401 });
   }
 
   const opId = String(payload.opId ?? payload.id ?? payload.transactionId ?? "");

@@ -148,3 +148,21 @@ export async function verifyWebhookSignature(
 }
 
 export const BILLPOCKET_MONTO_INSCRIPCION = 1000;
+
+/**
+ * El dashboard de Billpocket (Configuración → Integraciones → Webhook
+ * General) tiene un campo "Token" sin descripción, junto a la config del
+ * webhook. No apareció documentado en la especificación de firma RSA que sí
+ * está confirmada — puede ser un mecanismo alterno de validación (token
+ * compartido en vez de firma asimétrica). Se acepta como verificación
+ * ADICIONAL a la firma RSA, nunca en su lugar, hasta confirmar en qué
+ * header/campo exacto lo manda Billpocket.
+ */
+export function matchesWebhookToken(candidate: string | null | undefined): boolean {
+  const expected = process.env.BILLPOCKET_WEBHOOK_TOKEN;
+  if (!expected || !candidate) return false;
+  const a = Buffer.from(candidate);
+  const b = Buffer.from(expected);
+  if (a.length !== b.length) return false;
+  return crypto.timingSafeEqual(a, b);
+}

@@ -1,34 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import { useSite } from "@/components/providers/SiteProvider";
 import { IconCheck } from "@/components/icons";
 import BillpocketPayButton from "@/components/site/BillpocketPayButton";
-import type { PlanGrupo } from "@/lib/types";
 
 export default function Pagos() {
   const { requireAuth, openModal } = useSite();
-  const [loadingPlan, setLoadingPlan] = useState<PlanGrupo | null>(null);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
-
-  async function handleMensualidad(plan: PlanGrupo) {
-    if (!requireAuth()) return;
-    setErrorMsg(null);
-    setLoadingPlan(plan);
-    try {
-      const res = await fetch("/api/mp/preapproval", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan }),
-      });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.error || "No se pudo iniciar el cobro.");
-      window.location.href = json.init_point;
-    } catch (err) {
-      setErrorMsg(err instanceof Error ? err.message : "Ocurrió un error.");
-      setLoadingPlan(null);
-    }
-  }
 
   function handleComprobante() {
     if (!requireAuth()) return;
@@ -45,10 +22,6 @@ export default function Pagos() {
           <h2 className="display">Elige tu paquete</h2>
           <p className="lead">Cada grupo tiene su mensualidad. La inscripción es única y aparta tu lugar.</p>
         </div>
-
-        {errorMsg && (
-          <p style={{ textAlign: "center", color: "#c14f6f", marginBottom: 20 }}>{errorMsg}</p>
-        )}
 
         <div className="pay">
           <div className="pay-card pay-card--feature reveal in">
@@ -69,21 +42,12 @@ export default function Pagos() {
                 <IconCheck /> Acceso a las grabaciones del ciclo
               </li>
             </ul>
-            <button
-              type="button"
-              className="btn btn--gold"
-              style={{ width: "100%" }}
-              onClick={() => handleMensualidad("manana")}
-              disabled={loadingPlan === "manana"}
-            >
-              {loadingPlan === "manana" ? "Redirigiendo…" : "Pagar con Mercado Pago"}
-            </button>
             <div style={{ marginTop: 10 }}>
               <BillpocketPayButton
                 endpoint="/api/billpocket/mensualidad"
                 extra={{ plan: "manana" }}
-                buttonLabel="Pagar con tarjeta (Billpocket)"
-                buttonClassName="btn btn--outline-light"
+                buttonLabel="Pagar con tarjeta"
+                buttonClassName="btn btn--gold"
                 montoLabel="Mensualidad Mañanas · $2,500 MXN"
               />
             </div>
@@ -108,21 +72,12 @@ export default function Pagos() {
                 <IconCheck /> Acceso a las grabaciones del ciclo
               </li>
             </ul>
-            <button
-              type="button"
-              className="btn btn--primary"
-              style={{ width: "100%" }}
-              onClick={() => handleMensualidad("tarde")}
-              disabled={loadingPlan === "tarde"}
-            >
-              {loadingPlan === "tarde" ? "Redirigiendo…" : "Pagar con Mercado Pago"}
-            </button>
             <div style={{ marginTop: 10 }}>
               <BillpocketPayButton
                 endpoint="/api/billpocket/mensualidad"
                 extra={{ plan: "tarde" }}
-                buttonLabel="Pagar con tarjeta (Billpocket)"
-                buttonClassName="btn btn--ghost"
+                buttonLabel="Pagar con tarjeta"
+                buttonClassName="btn btn--primary"
                 montoLabel="Mensualidad Tardes · $800 MXN"
               />
             </div>
@@ -148,7 +103,7 @@ export default function Pagos() {
               </button>
               <BillpocketPayButton
                 endpoint="/api/billpocket/inscripcion"
-                buttonLabel="Pagar con tarjeta (Billpocket)"
+                buttonLabel="Pagar con tarjeta"
                 buttonClassName="btn btn--ghost"
                 montoLabel="Inscripción · $1,000 MXN"
                 fullWidth={false}
