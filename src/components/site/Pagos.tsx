@@ -4,8 +4,27 @@ import { useSite } from "@/components/providers/SiteProvider";
 import { IconCheck } from "@/components/icons";
 import BillpocketPayButton from "@/components/site/BillpocketPayButton";
 
+// Promoción de lanzamiento: agosto 2026 gratis, septiembre 2026 al 50%.
+// Debe coincidir con PROMO_FACTOR_POR_PERIODO en src/lib/billpocket.ts —
+// aquí solo se usa para mostrar el precio correcto, el cobro real lo decide
+// el servidor.
+const PROMO_FACTOR_POR_PERIODO: Record<string, number> = {
+  "2026-08": 0,
+  "2026-09": 0.5,
+};
+const PERIODO_ACTUAL = new Date().toISOString().slice(0, 7);
+
+function precioMostrado(base: number) {
+  const factor = PROMO_FACTOR_POR_PERIODO[PERIODO_ACTUAL];
+  if (factor === undefined) return { monto: base, promo: null as string | null };
+  if (factor === 0) return { monto: 0, promo: "Gratis este mes" };
+  return { monto: Math.round(base * factor), promo: `${Math.round((1 - factor) * 100)}% de descuento este mes` };
+}
+
 export default function Pagos() {
   const { requireAuth, openModal } = useSite();
+  const manana = precioMostrado(2500);
+  const tarde = precioMostrado(800);
 
   function handleComprobante() {
     if (!requireAuth()) return;
@@ -28,8 +47,15 @@ export default function Pagos() {
             <span className="pay-card__tag pay-card__tag--gold">Paquete · Mañanas</span>
             <h3>Mañanas</h3>
             <p className="pay-card__sub">Lun y Mié · 11:30 y 12:40 · edades 18–21.</p>
+            {manana.promo && <p style={{ color: "var(--gold, #b8934a)", fontWeight: 700, margin: "0 0 6px" }}>{manana.promo}</p>}
             <div className="pay-amount">
-              $2,500<small> MXN / mes</small>
+              {manana.monto === 0 ? "Gratis" : `$${manana.monto.toLocaleString("es-MX")}`}
+              <small> MXN / mes</small>
+              {manana.monto !== 2500 && (
+                <span style={{ fontSize: "0.5em", color: "var(--ink-soft)", textDecoration: "line-through", marginLeft: 8 }}>
+                  $2,500
+                </span>
+              )}
             </div>
             <ul className="pay-list">
               <li>
@@ -48,7 +74,7 @@ export default function Pagos() {
                 extra={{ plan: "manana" }}
                 buttonLabel="Pagar con tarjeta"
                 buttonClassName="btn btn--gold"
-                montoLabel="Mensualidad Mañanas · $2,500 MXN"
+                montoLabel={`Mensualidad Mañanas · ${manana.monto === 0 ? "Gratis este mes" : `$${manana.monto.toLocaleString("es-MX")} MXN`}`}
               />
             </div>
             <p className="pay-card__mini">Tarjeta · SPEI · PayPal</p>
@@ -58,8 +84,15 @@ export default function Pagos() {
             <span className="pay-card__tag">Paquete · Tardes</span>
             <h3>Tardes</h3>
             <p className="pay-card__sub">Solo Miércoles · 7:30 pm · preparatoria.</p>
+            {tarde.promo && <p style={{ color: "var(--gold, #b8934a)", fontWeight: 700, margin: "0 0 6px" }}>{tarde.promo}</p>}
             <div className="pay-amount">
-              $800<small> MXN / mes</small>
+              {tarde.monto === 0 ? "Gratis" : `$${tarde.monto.toLocaleString("es-MX")}`}
+              <small> MXN / mes</small>
+              {tarde.monto !== 800 && (
+                <span style={{ fontSize: "0.5em", color: "var(--ink-soft)", textDecoration: "line-through", marginLeft: 8 }}>
+                  $800
+                </span>
+              )}
             </div>
             <ul className="pay-list">
               <li>
@@ -78,7 +111,7 @@ export default function Pagos() {
                 extra={{ plan: "tarde" }}
                 buttonLabel="Pagar con tarjeta"
                 buttonClassName="btn btn--primary"
-                montoLabel="Mensualidad Tardes · $800 MXN"
+                montoLabel={`Mensualidad Tardes · ${tarde.monto === 0 ? "Gratis este mes" : `$${tarde.monto.toLocaleString("es-MX")} MXN`}`}
               />
             </div>
             <p className="pay-card__mini" style={{ color: "var(--ink-soft)" }}>

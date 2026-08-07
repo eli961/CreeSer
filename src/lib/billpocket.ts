@@ -65,8 +65,12 @@ export async function tokenizeCard(input: TokenizeCardInput): Promise<TokenizeCa
     expYear: input.expYear,
     holderName: input.holderName,
   });
-  const cardToken = String(data.cardToken ?? data.token ?? "");
-  if (!cardToken) throw new Error("Billpocket no devolvió un cardToken.");
+  const cardToken = String(data.cardToken ?? data.token ?? data.card_token ?? data.cardId ?? "");
+  if (!cardToken) {
+    // Se incluye la respuesta cruda (sin datos de tarjeta) en el mensaje para
+    // poder ver en el momento qué nombre de campo usa Billpocket realmente.
+    throw new Error(`Billpocket no devolvió un cardToken. Respuesta: ${JSON.stringify(data)}`);
+  }
   return { cardToken, maskedPan: (data.maskedPan ?? data.pan) as string | undefined };
 }
 
@@ -148,6 +152,22 @@ export async function verifyWebhookSignature(
 }
 
 export const BILLPOCKET_MONTO_INSCRIPCION = 1000;
+
+/**
+ * Promoción de lanzamiento: agosto 2026 gratis, septiembre 2026 al 50%.
+ * `periodoYYYYMM` es el mes que se está cobrando (ej. "2026-08"), no la fecha
+ * en que se procesa el cobro.
+ */
+const PROMO_FACTOR_POR_PERIODO: Record<string, number> = {
+  "2026-08": 0,
+  "2026-09": 0.5,
+};
+
+export function montoParaPeriodo(montoBase: number, periodoYYYYMM: string): number {
+  const factor = PROMO_FACTOR_POR_PERIODO[periodoYYYYMM];
+  if (factor === undefined) return montoBase;
+  return Math.round(montoBase * factor);
+}
 
 /**
  * El dashboard de Billpocket (Configuración → Integraciones → Webhook

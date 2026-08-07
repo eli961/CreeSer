@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { tokenizeCard, charge } from "@/lib/billpocket";
+import { tokenizeCard, charge, montoParaPeriodo } from "@/lib/billpocket";
 import { PLANES } from "@/lib/mercadopago";
 import type { PlanGrupo } from "@/lib/types";
 
@@ -35,6 +35,8 @@ export async function POST(req: Request) {
   const { monto } = PLANES[body.plan];
   const admin = createAdminClient();
   const contractNumber = `${body.plan}-${user.id}-${Date.now()}`;
+  const periodo = new Date().toISOString().slice(0, 7);
+  const montoCobrado = montoParaPeriodo(monto, periodo);
 
   try {
     const { cardToken } = await tokenizeCard({
@@ -43,14 +45,19 @@ export async function POST(req: Request) {
       expYear: body.expYear,
       holderName: body.holderName,
     });
-    const result = await charge({
-      cardToken,
-      cvv: body.cvv,
-      amount: monto,
-      txnType: "recurring",
-      contractNumber,
-      reference: contractNumber,
-    });
+    // Con promoción al 100% (agosto gratis) no hay nada que cobrar — solo se
+    // guarda la tarjeta para los cargos de los meses siguientes.
+    const result =
+      montoCobrado > 0
+        ? await charge({
+            cardToken,
+            cvv: body.cvv,
+            amount: montoCobrado,
+            txnType: "recurring",
+            contractNumber,
+            reference: contractNumber,
+          })
+        : { opId: "", approved: true, raw: null };
 
     const proximoCobro = new Date();
     proximoCobro.setMonth(proximoCobro.getMonth() + 1);
@@ -73,9 +80,9 @@ export async function POST(req: Request) {
     await admin.from("pagos").insert({
       usuario_id: user.id,
       tipo: "mensualidad",
-      monto,
+      monto: montoCobrado,
       moneda: "MXN",
-      periodo: new Date().toISOString().slice(0, 7),
+      periodo,
       metodo: "tarjeta",
       pasarela: "billpocket",
       estado: result.approved ? "pagado" : "rechazado",

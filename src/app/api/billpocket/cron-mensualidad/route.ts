@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { chargeRecurring } from "@/lib/billpocket";
+import { chargeRecurring, montoParaPeriodo } from "@/lib/billpocket";
 
 /**
  * Billpocket no cobra la mensualidad sola cada mes — a diferencia del
@@ -27,16 +27,23 @@ export async function GET(req: Request) {
     .eq("estado", "activa")
     .lte("proximo_cobro", today);
 
+  const periodo = today.slice(0, 7);
   const resultados = [];
   for (const s of suscripciones ?? []) {
     if (!s.bp_contract_number || !s.bp_card_token) continue;
     try {
-      const result = await chargeRecurring({
-        cardToken: s.bp_card_token,
-        contractNumber: s.bp_contract_number,
-        amount: s.monto,
-        reference: s.bp_contract_number,
-      });
+      const montoCobrado = montoParaPeriodo(s.monto, periodo);
+      // Con promoción al 100% no hay nada que cobrar este mes — se registra
+      // el pago en $0 y se avanza la fecha sin llamar a Billpocket.
+      const result =
+        montoCobrado > 0
+          ? await chargeRecurring({
+              cardToken: s.bp_card_token,
+              contractNumber: s.bp_contract_number,
+              amount: montoCobrado,
+              reference: s.bp_contract_number,
+            })
+          : { opId: "", approved: true, raw: null };
 
       const proximoCobro = new Date();
       proximoCobro.setMonth(proximoCobro.getMonth() + 1);
@@ -44,9 +51,9 @@ export async function GET(req: Request) {
       await admin.from("pagos").insert({
         usuario_id: s.usuario_id,
         tipo: "mensualidad",
-        monto: s.monto,
+        monto: montoCobrado,
         moneda: "MXN",
-        periodo: today.slice(0, 7),
+        periodo,
         metodo: "tarjeta",
         pasarela: "billpocket",
         estado: result.approved ? "pagado" : "rechazado",
