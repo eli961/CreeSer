@@ -2,22 +2,15 @@
 
 import { useSite } from "@/components/providers/SiteProvider";
 import { IconCheck } from "@/components/icons";
-import BillpocketPayButton from "@/components/site/BillpocketPayButton";
+import PagarConTarjetaLink from "@/components/site/PagarConTarjetaLink";
+import { montoParaPeriodo } from "@/lib/billpocket-link";
 
-// Promoción de lanzamiento: septiembre 2026 al 50%.
-// Debe coincidir con PROMO_FACTOR_POR_PERIODO en src/lib/billpocket.ts —
-// aquí solo se usa para mostrar el precio correcto, el cobro real lo decide
-// el servidor.
-const PROMO_FACTOR_POR_PERIODO: Record<string, number> = {
-  "2026-09": 0.5,
-};
 const PERIODO_ACTUAL = new Date().toISOString().slice(0, 7);
 
 function precioMostrado(base: number) {
-  const factor = PROMO_FACTOR_POR_PERIODO[PERIODO_ACTUAL];
-  if (factor === undefined) return { monto: base, promo: null as string | null };
-  if (factor === 0) return { monto: 0, promo: "Gratis este mes" };
-  return { monto: Math.round(base * factor), promo: `${Math.round((1 - factor) * 100)}% de descuento este mes` };
+  const monto = montoParaPeriodo(base, PERIODO_ACTUAL);
+  const promo = monto !== base ? `${Math.round((1 - monto / base) * 100)}% de descuento este mes` : null;
+  return { monto, promo };
 }
 
 export default function Pagos() {
@@ -48,7 +41,7 @@ export default function Pagos() {
             <p className="pay-card__sub">Lun y Mié · 11:30 y 12:40 · edades 18–21.</p>
             {manana.promo && <p style={{ color: "var(--gold, #b8934a)", fontWeight: 700, margin: "0 0 6px" }}>{manana.promo}</p>}
             <div className="pay-amount">
-              {manana.monto === 0 ? "Gratis" : `$${manana.monto.toLocaleString("es-MX")}`}
+              ${manana.monto.toLocaleString("es-MX")}
               <small> MXN / mes</small>
               {manana.monto !== 2500 && (
                 <span style={{ fontSize: "0.5em", color: "var(--ink-soft)", textDecoration: "line-through", marginLeft: 8 }}>
@@ -61,20 +54,14 @@ export default function Pagos() {
                 <IconCheck /> Dos clases por día, dos veces por semana
               </li>
               <li>
-                <IconCheck /> Pago en línea con tarjeta · cargo automático
+                <IconCheck /> Pago en línea con tarjeta
               </li>
               <li>
                 <IconCheck /> Acceso a las grabaciones del ciclo
               </li>
             </ul>
             <div style={{ marginTop: 10 }}>
-              <BillpocketPayButton
-                endpoint="/api/billpocket/mensualidad"
-                extra={{ plan: "manana" }}
-                buttonLabel="Pagar con tarjeta"
-                buttonClassName="btn btn--gold"
-                montoLabel={`Mensualidad Mañanas · ${manana.monto === 0 ? "Gratis este mes" : `$${manana.monto.toLocaleString("es-MX")} MXN`}`}
-              />
+              <PagarConTarjetaLink tipo="mensualidad" plan="manana" buttonClassName="btn btn--gold" />
             </div>
             <p className="pay-card__mini">Tarjeta · SPEI · PayPal</p>
           </div>
@@ -85,7 +72,7 @@ export default function Pagos() {
             <p className="pay-card__sub">Solo Miércoles · 7:30 pm · preparatoria.</p>
             {tarde.promo && <p style={{ color: "var(--gold, #b8934a)", fontWeight: 700, margin: "0 0 6px" }}>{tarde.promo}</p>}
             <div className="pay-amount">
-              {tarde.monto === 0 ? "Gratis" : `$${tarde.monto.toLocaleString("es-MX")}`}
+              ${tarde.monto.toLocaleString("es-MX")}
               <small> MXN / mes</small>
               {tarde.monto !== 800 && (
                 <span style={{ fontSize: "0.5em", color: "var(--ink-soft)", textDecoration: "line-through", marginLeft: 8 }}>
@@ -98,20 +85,14 @@ export default function Pagos() {
                 <IconCheck /> Una clase por semana
               </li>
               <li>
-                <IconCheck /> Pago en línea con tarjeta · cargo automático
+                <IconCheck /> Pago en línea con tarjeta
               </li>
               <li>
                 <IconCheck /> Acceso a las grabaciones del ciclo
               </li>
             </ul>
             <div style={{ marginTop: 10 }}>
-              <BillpocketPayButton
-                endpoint="/api/billpocket/mensualidad"
-                extra={{ plan: "tarde" }}
-                buttonLabel="Pagar con tarjeta"
-                buttonClassName="btn btn--primary"
-                montoLabel={`Mensualidad Tardes · ${tarde.monto === 0 ? "Gratis este mes" : `$${tarde.monto.toLocaleString("es-MX")} MXN`}`}
-              />
+              <PagarConTarjetaLink tipo="mensualidad" plan="tarde" buttonClassName="btn btn--primary" />
             </div>
             <p className="pay-card__mini" style={{ color: "var(--ink-soft)" }}>
               Tarjeta · SPEI · PayPal
@@ -133,13 +114,7 @@ export default function Pagos() {
               <button type="button" className="btn btn--primary" onClick={handleComprobante}>
                 Subir comprobante
               </button>
-              <BillpocketPayButton
-                endpoint="/api/billpocket/inscripcion"
-                buttonLabel="Pagar con tarjeta"
-                buttonClassName="btn btn--ghost"
-                montoLabel="Inscripción · $1,000 MXN"
-                fullWidth={false}
-              />
+              <PagarConTarjetaLink tipo="inscripcion" buttonClassName="btn btn--ghost" fullWidth={false} />
             </div>
           </div>
           <div className="bankbox">

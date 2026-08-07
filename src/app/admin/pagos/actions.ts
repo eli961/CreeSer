@@ -3,10 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin-guard";
 import { createAdminClient } from "@/lib/supabase/admin";
-
-function planFromMonto(monto: number): "manana" | "tarde" {
-  return monto >= 2500 ? "manana" : "tarde";
-}
+import { PLANES } from "@/lib/mercadopago";
+import type { PlanGrupo } from "@/lib/types";
 
 export async function aprobarPago(formData: FormData) {
   await requireAdmin();
@@ -21,7 +19,10 @@ export async function aprobarPago(formData: FormData) {
   if (pago.tipo === "inscripcion") {
     await admin.from("profiles").update({ estado_inscripcion: "confirmada" }).eq("id", pago.usuario_id);
   } else if (pago.tipo === "mensualidad") {
-    const plan = planFromMonto(Number(pago.monto));
+    // El monto del pago puede traer descuento de temporada, así que el plan
+    // se toma del grupo ya elegido en el perfil de la alumna (no del monto).
+    const { data: perfil } = await admin.from("profiles").select("grupo").eq("id", pago.usuario_id).single();
+    const plan: PlanGrupo = perfil?.grupo === "tarde" ? "tarde" : "manana";
     const proximo = new Date();
     proximo.setMonth(proximo.getMonth() + 1);
 
@@ -42,7 +43,8 @@ export async function aprobarPago(formData: FormData) {
         usuario_id: pago.usuario_id,
         estado: "activa",
         plan,
-        monto: pago.monto,
+        monto: PLANES[plan].monto,
+        pasarela: pago.pasarela ?? "mercadopago",
         proximo_cobro: proximo.toISOString().slice(0, 10),
       });
     }
