@@ -4,12 +4,11 @@ import { useSite } from "@/components/providers/SiteProvider";
 import { IconCheck } from "@/components/icons";
 import BillpocketPayButton from "@/components/site/BillpocketPayButton";
 
-// Promoción de lanzamiento: agosto 2026 gratis, septiembre 2026 al 50%.
+// Promoción de lanzamiento: septiembre 2026 al 50%.
 // Debe coincidir con PROMO_FACTOR_POR_PERIODO en src/lib/billpocket.ts —
 // aquí solo se usa para mostrar el precio correcto, el cobro real lo decide
 // el servidor.
 const PROMO_FACTOR_POR_PERIODO: Record<string, number> = {
-  "2026-08": 0,
   "2026-09": 0.5,
 };
 const PERIODO_ACTUAL = new Date().toISOString().slice(0, 7);
