@@ -27,20 +27,37 @@ const BASE_URL = process.env.BILLPOCKET_BASE_URL || "https://lancehorn.billpocke
 const API_KEY = process.env.BILLPOCKET_API_KEY;
 
 function requireApiKey(): string {
-  if (!API_KEY) throw new Error("Falta BILLPOCKET_API_KEY en las variables de entorno.");
-  return API_KEY;
+  // .trim() por si la variable en Vercel quedó con un espacio o salto de
+  // línea de más al copiar/pegar — Billpocket la reportaría como inválida.
+  const key = API_KEY?.trim();
+  if (!key) throw new Error("Falta BILLPOCKET_API_KEY en las variables de entorno.");
+  return key;
 }
 
 async function bpFetch<T>(path: string, body: Record<string, unknown>): Promise<T> {
   const apiKey = requireApiKey();
   const res = await fetch(`${BASE_URL}${path}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json", apiKey },
-    body: JSON.stringify({ ...body, apiKey }),
+    // Se manda la llave en varios nombres/formatos plausibles a la vez
+    // (header y body) porque no se pudo confirmar contra la documentación
+    // real cuál usa Billpocket exactamente — enviar de más no daña nada.
+    headers: {
+      "Content-Type": "application/json",
+      apiKey,
+      apikey: apiKey,
+      "Api-Key": apiKey,
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({ ...body, apiKey, api_key: apiKey, ApiKey: apiKey }),
   });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
     throw new Error(`Billpocket ${path} respondió ${res.status}: ${JSON.stringify(data)}`);
+  }
+  // Algunas respuestas de Billpocket son HTTP 200 pero indican error de
+  // negocio en el cuerpo (ej. {"status":-1,"message":"..."})
+  if (typeof data === "object" && data !== null && "status" in data && (data as { status: unknown }).status === -1) {
+    throw new Error(`Billpocket ${path} rechazó la solicitud: ${JSON.stringify(data)}`);
   }
   return data as T;
 }
