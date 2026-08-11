@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import type { Profile, Suscripcion } from "@/lib/types";
 import { estaAlCorriente } from "@/lib/types";
+import { whatsappSeguimientoInscripcionUrl } from "@/lib/whatsapp";
 
 function Badge({ estado }: { estado: string }) {
   const map: Record<string, string> = {
@@ -60,6 +61,8 @@ export default async function AlumnasPage({
           <thead>
             <tr>
               <th>Nombre</th>
+              <th>Email</th>
+              <th>Teléfono</th>
               <th>Grupo</th>
               <th>Inscripción</th>
               <th>Mensualidad</th>
@@ -74,10 +77,9 @@ export default async function AlumnasPage({
               const alCorriente = estaAlCorriente(a, subs);
               return (
                 <tr key={a.id}>
-                  <td>
-                    <div style={{ fontWeight: 700 }}>{a.nombre || "—"}</div>
-                    <div style={{ fontSize: 12.5, color: "var(--ink-soft)" }}>{a.email}</div>
-                  </td>
+                  <td style={{ fontWeight: 700 }}>{a.nombre || "(sin nombre)"}</td>
+                  <td>{a.email}</td>
+                  <td>{a.telefono || "—"}</td>
                   <td>{a.grupo || "—"}</td>
                   <td>
                     <Badge estado={a.estado_inscripcion} />
@@ -89,7 +91,7 @@ export default async function AlumnasPage({
                   <td>{activa?.proximo_cobro || "—"}</td>
                   <td>
                     {a.telefono ? (
-                      <a href={`https://wa.me/${a.telefono.replace(/\D/g, "")}`} target="_blank" rel="noreferrer">
+                      <a href={whatsappSeguimientoInscripcionUrl(a.telefono)} target="_blank" rel="noreferrer">
                         WhatsApp
                       </a>
                     ) : (

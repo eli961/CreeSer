@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import type { Pago, Profile } from "@/lib/types";
 import { aprobarPago, rechazarPago } from "./actions";
+import { whatsappSeguimientoInscripcionUrl } from "@/lib/whatsapp";
 
 export default async function PagosPage() {
   const supabase = await createClient();
@@ -12,11 +13,14 @@ export default async function PagosPage() {
   ]);
 
   const alumnaById = new Map((alumnas ?? []).map((a) => [a.id, a]));
-  const pendientesTransferencia = (pagos ?? []).filter((p) => p.metodo === "transferencia" && p.estado === "pendiente");
+  // Incluye tanto transferencias con comprobante como pagos con tarjeta vía
+  // el link de Billpocket (esos no traen comprobante, pero igual necesitan
+  // confirmación manual de un admin).
+  const pendientes = (pagos ?? []).filter((p) => p.estado === "pendiente");
 
   const admin = createAdminClient();
   const conUrl = await Promise.all(
-    pendientesTransferencia.map(async (p) => {
+    pendientes.map(async (p) => {
       if (!p.comprobante_url) return { pago: p, url: null };
       const { data } = await admin.storage.from("comprobantes").createSignedUrl(p.comprobante_url, 600);
       return { pago: p, url: data?.signedUrl ?? null };
@@ -30,9 +34,9 @@ export default async function PagosPage() {
       </div>
 
       <h3 style={{ fontFamily: "var(--serif)", fontSize: "1.4rem", marginBottom: 12 }}>
-        Comprobantes por validar ({conUrl.length})
+        Pendientes por validar ({conUrl.length})
       </h3>
-      {conUrl.length === 0 && <p className="admin-empty">No hay comprobantes pendientes.</p>}
+      {conUrl.length === 0 && <p className="admin-empty">No hay pagos pendientes.</p>}
       {conUrl.map(({ pago, url }) => {
         const alumna = alumnaById.get(pago.usuario_id);
         return (
@@ -41,14 +45,27 @@ export default async function PagosPage() {
               // eslint-disable-next-line @next/next/no-img-element
               <img src={url} alt="Comprobante" style={{ width: 120, height: 120, objectFit: "cover", borderRadius: 12, border: "1px solid var(--line)" }} />
             )}
-            <div style={{ flex: 1, minWidth: 200 }}>
-              <div style={{ fontWeight: 700 }}>{alumna?.nombre || pago.usuario_id}</div>
+            <div style={{ flex: 1, minWidth: 220 }}>
+              <div style={{ fontWeight: 700 }}>{alumna?.nombre || "(sin nombre)"}</div>
               <div style={{ fontSize: 13.5, color: "var(--ink-soft)" }}>{alumna?.email}</div>
+              <div style={{ fontSize: 13.5, color: "var(--ink-soft)" }}>{alumna?.telefono || "sin teléfono"}</div>
               <div style={{ marginTop: 6, fontSize: 14.5 }}>
                 {pago.tipo === "inscripcion" ? "Inscripción" : `Mensualidad · ${pago.periodo || ""}`} · ${pago.monto} {pago.moneda}
+                {" · "}
+                {pago.metodo === "transferencia" ? "Transferencia" : "Tarjeta"}
               </div>
             </div>
-            <div style={{ display: "flex", gap: 10 }}>
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+              {alumna?.telefono && (
+                <a
+                  href={whatsappSeguimientoInscripcionUrl(alumna.telefono)}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn btn--ghost btn--sm"
+                >
+                  WhatsApp
+                </a>
+              )}
               <form action={aprobarPago}>
                 <input type="hidden" name="id" value={pago.id} />
                 <button type="submit" className="btn btn--primary btn--sm">
@@ -72,6 +89,8 @@ export default async function PagosPage() {
           <thead>
             <tr>
               <th>Alumna</th>
+              <th>Email</th>
+              <th>Teléfono</th>
               <th>Tipo</th>
               <th>Monto</th>
               <th>Método</th>
@@ -85,7 +104,9 @@ export default async function PagosPage() {
               const alumna = alumnaById.get(p.usuario_id);
               return (
                 <tr key={p.id}>
-                  <td>{alumna?.nombre || p.usuario_id}</td>
+                  <td>{alumna?.nombre || "(sin nombre)"}</td>
+                  <td>{alumna?.email || "—"}</td>
+                  <td>{alumna?.telefono || "—"}</td>
                   <td>{p.tipo === "inscripcion" ? "Inscripción" : `Mensualidad ${p.periodo || ""}`}</td>
                   <td>
                     ${p.monto} {p.moneda}
